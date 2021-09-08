@@ -1,0 +1,134 @@
+html, body {
+    height: 100%;
+	background-color: #2d7ea9;
+}
+ul, li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.body-container {
+	height: 100%;
+}
+.header-container {
+	background-color:#000;
+	padding: 15px;
+}
+.home-link {
+	color: #FFF;
+	text-decoration: blink;
+}
+.home-link-text {
+	font-size: 16px;
+	font-weight: bold;
+	margin-left: 10px;
+}
+.main-container {
+	
+}
+.btn-primary {
+	background-color: #3192c5;
+    border: 5px solid #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0px 0px 5px 5px #cfcfcf;
+	margin: 5px;	
+}
+.create-domain-button {
+    background-color: #286090;
+    border-color: #084981;
+	border: none;
+    font-size: 18px;
+    font-weight: bold;
+	box-shadow: none;
+	margin: 0;
+}
+.inner-container {
+    width: 1024px;
+    margin: 0 auto;
+    padding: 10px;
+}
+.inner-container input {
+	border: 1px solid #000;
+	margin: 0 5px;
+	padding: 5px;
+}
+.create-domain {
+    padding: 0;
+    margin: 10px 0;
+}
+.create-domain-input {
+	border: 1px solid #2e6da4;
+    display: none;
+    padding: 15px;
+    width: 75%;
+    background-color: #FBFBFB;
+    border-top: 0;
+}
+.create-domain-input input {
+    margin: 0 0 0 50px;
+    width: 40%;
+}
+.create-domain .btn-primary.plus-icon {
+	background-image: url(../images/plus-icon.png);
+    background-position: 5px 6px;
+    background-repeat: no-repeat;
+	padding: 8px 8px 8px 40px;
+    width: 75%;
+    text-align: left;
+	margin: 0;
+}
+.create-domain .btn-primary.mines-icon {
+	background-image: url(../images/mines-icon.png);
+    background-position: 5px 6px;
+    background-repeat: no-repeat;
+    width: 75%;
+    text-align: left;
+	margin: 0;
+	padding: 8px 8px 8px 40px;
+}
+.create-domain .btn {
+    padding: 5px;
+    font-size: 16px;
+    margin: 0 5px;
+	box-shadow: none;
+    border: none;
+}
+.modal-content {
+    background-color: #2d7ea9;
+    color: #fff;
+    font-size: 16px;
+	margin: 35% auto 0;
+    text-align: center;
+    width: 350px;
+}
+.fade.in {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.modal-content .btn {
+	color: #2d7ea9;
+    font-size: 15px;
+    font-weight: bold;
+	padding: 3px 12px;
+}
+.modal-content .modal-footer {
+	border: none;
+}
+.modal-content .modal-footer {
+    text-align: center;
+}
+/*
+.create-entity {
+	display: none;
+	padding: 15px 0 15px 50px;
+}
+.create-data {
+	display: none;
+}*/
+
+@media (max-height: 500px) {
+
+}
+@media (max-width: 400px) {
+
+}

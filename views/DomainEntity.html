@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Demo page</title>
+<style type="text/css">
+html, body {
+	height: 100%;
+	background: #FFF;
+}
+.hidden{
+display:none;
+}
+</style>
+<meta name="Generator" content="EditPlus">
+		<meta name="Author" content="">
+		<meta name="Keywords" content="">
+		<meta name="Description" content="">
+
+		<meta charset="utf-8">
+
+		<title>Domain Entity Creation</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/app.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="https://www.parsecdn.com/js/parse-latest.js"></script>
+		<script src="http://requirejs.org/docs/release/2.1.11/minified/require.js"></script>
+		
+		<script type="text/javascript">
+		
+			/*$('document').ready(function () {
+				Parse.initialize("I73JG3eKRzEbMzrPzsLNNdTlkUC21IFqApXq0uU5", "4ibe7GteSIw1pJV4q66CRSINEmISq6q8DsS5kbJp");  // ashwini
+			});*/
+			
+			function createDomain() {
+					var appKey = $('#appKey').val();
+					var secretKey = $('#secretKey').val();
+					var domainName= $('#domainName').val();
+							
+					$.ajax({
+							url: '/prediction/v1/domain',
+							type: 'POST',
+							data: JSON.stringify({appKey: appKey,secretKey:secretKey,domainName:domainName}),
+							contentType: "application/json",
+							success: function(response) {
+								//if(response.success){
+									alert("Domain creation was successful!");
+									getUserDomains();
+									$('.entityForm').removeClass('hidden');
+									
+								/*} else {
+										alert("Creating domain failed..Please try again: "+ response.message);
+								}*/
+								
+							},
+								error: function (error) {
+									alert("Error in creating domain:"+error);
+							}
+					});
+				}
+				
+				function createEntity() {
+					var appKey = $('#appKey').val();
+					var secretKey = $('#secretKey').val();
+					var domainName= $('#domainName').val();
+					var entityName= $('#entityName').val();
+							
+					$.ajax({
+							url: '/prediction/v1/domain/'+domainName+'/entity',
+							type: 'POST',
+							data: JSON.stringify({appKey:appKey,secretKey:secretKey,entityName:entityName}),
+							contentType: "application/json",
+							success: function(response) {
+								
+									alert("Entity creation was successful!");
+									getUserEntities();
+									$('.entityDataForm').removeClass('hidden');
+									
+									
+								},
+								
+							
+								error: function (error) {
+									alert("Error in creating Entity:"+error);
+							}
+					});
+				}
+					
+				function pushEntityData() {
+					var appKey = $('#appKey').val();
+					var entityData = $("#entityData").val();
+					//var entityData = $("#entityData").val();
+					var secretKey = $('#secretKey').val();
+					var domainName= $('#domainName').val();
+					var entityName= $('#entityName').val();
+							
+					$.ajax({
+							url: '/user/data/domain/entity/save-all',
+							type: 'POST',
+							/*data: JSON.stringify({appKey:appKey,secretKey:secretKey,domainName:domainName,entityName:entityName,entityData:entityData}),*/
+							data: JSON.stringify(JSON.parse(entityData)),
+							contentType: "application/json",
+							success: function(response) {
+								if(response.success){
+									
+									alert("Data was Successfully pushed!");
+									
+								} else {
+										alert("Pushing Entity Data failed..Please try again: "+ response.message);
+								}
+								
+							},
+								error: function (error) {
+									alert("Error in Push Data Entity:"+error);
+							}
+					});
+				}
+				
+				function getUserDomains() {
+					var appKey = $('#appKey').val();
+					var secretKey = $('#secretKey').val();
+							
+					$.ajax({
+							url: '/prediction/v1/domain',
+							type: 'GET',
+							beforeSend: function (request)
+							{
+								request.setRequestHeader("appKey", appKey);
+								request.setRequestHeader("secretKey", secretKey);
+							},
+							contentType: "application/json",
+							success: function(response) {
+								
+									var str = '';
+									for( var i=0; i< response.length; i++){
+										str += '<option>' + response[i].name + '</option>'
+									}
+									$('.domainList').html(str);
+									
+								 
+								
+							},
+								error: function (error) {
+									alert("Error in creating Entity:"+error);
+							}
+					});
+				}
+					function getUserEntities() {
+					var appKey = $('#appKey').val();
+					var secretKey = $('#secretKey').val();
+					var domainName=$('#domainList').val();	
+					$.ajax({
+							url: '/prediction/v1/domain/'+domainName+'/entity',
+							type: 'GET',
+							beforeSend: function (request)
+							{
+								request.setRequestHeader("appKey", appKey);
+								request.setRequestHeader("secretKey", secretKey);
+							},
+							contentType: "application/json",
+							success: function(response) {
+								
+									var str = '';
+									for( var i=0; i< response.length; i++){
+										str += '<option>' + response[i].name + '</option>'
+									}
+									$('#entityList').html(str);
+									
+								
+							},
+								error: function (error) {
+									alert("Error in creating Entity:"+error);
+							}
+					});
+				}
+		</script>
+</head>
+<body>
+    <div>
+    	<div>
+        	<span>
+            	App Key
+            </span>
+        	<input type="text" id="appKey" class="appKey" />
+            <span>
+            	Sccret Key
+            </span>
+            <input type="text" id="secretKey" class="secretKey" />
+        </div>
+        <div style="padding: 10px 0;">
+        	<button  onclick="createDomain()" type="button" id="createDomain">
+            	Create Domain
+            </button>
+            <span style="margin: 0 10px;">
+            	Domain Name:
+            </span>
+            <input type="text" id="domainName"/>
+        </div>
+        <div class="entityForm hidden" id="entityform" style="padding: 10px 0; ">
+        	<button onclick="createEntity()" id="createEntity" type="button">Create entity</button>
+            <select class="domainList" id="domainList" style="width: 150px; margin: 0 10px;">
+            	
+            </select>
+            <span style="margin: 0 10px;">
+            	Entity Name:
+            </span>
+            <input type="text" id="entityName" class="entityName"/>
+        </div>
+        <div class="entityDataForm hidden" id="entityDataForm" style="padding: 10px 0;">
+        	<button onclick="pushEntityData()" id="pushEntityData"  type="button">
+            	Entity Data
+            </button>
+            <select class="domainList" id="domaindataList"  style="width: 150px; margin: 0 10px;">
+            	
+            </select>
+            <select class="entityList" id="entityList" style="width: 150px; margin: 0 10px;">
+            	
+            </select>
+        </div>
+        <div class="entityDataForm hidden" style="padding: 10px 0;">
+        	<textarea  id="entityData" style="width: 500px; height: 500px;">
+            </textarea>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Scientific Prediction</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/global.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/message-pop-up.js"></script>
+
+    <link href="/css/message-pop-up.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="body-container">
+    <div class="header-container">
+        <a class=""><img alt="Scientific Prediction" onclick="location.href='/';" src="/images/logo.png" /></a>
+        <button type="button" class="btn pull-right button" onclick="window.location.href='/user/login'";>Login</button>
+    </div>
+    <div class="main-container">
+        <div class="entry-panel-container">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    Access your dashboard
+                </div>
+                <div class="panel-body">
+                    <form id="signUpForm">
+                        <div class="form-group signin-password">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="password" id="signup-password" placeholder="Password">
+                                <span class="input-group-addon glyphicon"></span>
+                            </div>
+                            <h6 class="signup-password-error hidden" style="color: red;"> * Please enter password.</h6>
+                        </div>
+                        <div class="form-group signin-password">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password">
+                                <span class="input-group-addon glyphicon"></span>
+                            </div>
+                            <h6 class="confirm-password-error hidden" style="color: red;"> * Please confirm password.</h6>
+                        </div>
+                        <h6 class="password-match-error hidden" style="color: red;"> * The passwords are not matching.</h6>
+                        <button id="signup" type="submit" class="btn btn-primary login1 pull-right">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center footer-container">
+        © 2015 Tricon Infotech Private Limited. All Rights Reserved.
+    </div>
+</div>
+<!-- <script type="text/javascript" src="js/email-validation.js"></script> -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#signup").on("click", validateSignup);
+    });
+    function validateSignup (event) {
+        event.preventDefault();
+        var token = window.location.href.split('/')[5];
+        var password = $("#signup-password").val();
+        var confirmPassword = $("#confirm-password").val();
+        $(".signup-password-error").addClass("hidden");
+        $(".confirm-password-error").addClass("hidden");
+        $(".password-match-error").addClass("hidden");
+
+        if (!password) {
+            $(".signup-password-error").removeClass("hidden");
+            return false;
+        } else if (!confirmPassword) {
+            $(".confirm-password-error").removeClass("hidden");
+            return false;
+        } else if (password !== confirmPassword) {
+            $(".password-match-error").removeClass("hidden");
+            return false;
+        }
+
+        $.ajax({
+            url: '/user/reset-link/'+token,
+            type: 'POST',
+            data: JSON.stringify({password: password}),
+            contentType: "application/json",
+            success: function(response) {
+                //console.log(response);
+                if(response.success){
+                    popup(response.message);
+                    window.location.href = "/";
+                }
+                else{
+                    popup(response.message);
+                    window.location.href = "/";
+                }
+            },
+            error: function (error) {
+                popup("SignUp Error:"+error);
+            }
+        })
+
+    }
+    /*
+     * Function to check entered email format
+     */
+    function validateEmail (name) {
+        /*
+         * Below regular expression tests for validity of entered email. Explained below
+         * [^<>()[\]\\.,;:\s@\"]                                -> The first character of the email address cannot be any of <>()[]\.,;:\s@"
+         * \.[^<>()[\]\\.,;:\s@\"]                              -> after a "." character the next character cannot be any of <>()[]\.,;:\s@"
+         * @                                                    -> matches the "@" character
+         * (\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\]) -> after the "@" character it can be either an ip address or
+         * (([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))                   -> after the "@" character there should be at-least a "." character followed by 2 or more alphabets
+         */
+        var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return reg.test(name);
+    }
+</script>
+</body>
+</html>

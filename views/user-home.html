@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Scientific Prediction</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/global.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://requirejs.org/docs/release/2.1.11/minified/require.js"></script>
+    <style>
+        iframe {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="body-container">
+    <div class="header-container">
+        <a href="/user/user-home" class=""><img alt="Scientific Prediction" src="/images/logo.png" /></a>
+        <button type="button" class="btn pull-right button" onclick="logOut()" >Sign Out</button>
+    </div>
+    <div class="main-container">
+        <div class="row inner-container">
+            <div class="pull-left menu-contianer">
+                <div class="menu-header">
+                </div>
+                <ul class="menu-list">
+                    <li>
+                        <a href="#" class="menu-link linkicon-home active">Home page</a>
+                    </li>
+                    <li>
+                        <a href="/user/user-keys" class="menu-link linkicon-keys">My Account</a>
+                    </li>
+                    <li>
+                        <a href="/user/user-apis" class="menu-link linkicon-apis">API Information</a>
+                    </li>
+                    <li>
+                        <a href="/user/pricing-model" class="menu-link linkicon-pricing">Pricing Details</a>
+                    </li>
+                    <li>
+                        <a href="/user/email-config" class="menu-link linkicon-email-config">Event Configuration</a>
+                    </li>
+                    <li>
+                        <a href="/user/about-us" class="menu-link linkicon-about">About Us</a>
+                    </li>
+                    <li>
+                        <a href="/user/contact-us" class="menu-link linkicon-contact">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class='pull-left display-container'  style="overflow-y: hidden">
+                <iframe src="/user-home"></iframe>
+                <!--dl-- class="desc-list">
+                    <br/>
+                    <dt class="desc-item-dt">1. Generate Keys</dt>
+                    <dd class="desc-item-dd">By clicking on the <i>Generate Key</i> button in the <i>Keys</i> tab.</dd>
+                    <dd class="desc-item-dd">Two keys namely <i>appKey</i> & <i>secretKey</i> will be generated.</dd>
+                    <dd class="desc-item-dd">The keys will be unique for each registered account. So the same keys will be used for all domains & entities of the account.</dd>
+                    <dd class="desc-item-dd">The keys have to be included in the request headers while making a request to any of the REST-API of PredictMe.</dd>
+                    <br/>
+                    <dt class="desc-item-dt">2. Create Domain</dt>
+                    <dd class="desc-item-dd">A domain is a generic field of study, to carry on predictive analysis.</dd>
+                    <dd class="desc-item-dd">Example: 'Health Sciences'</dd>
+                    <dd class="desc-item-dd">The domains are uniquely identified by name.</dd>
+                    <dd class="desc-item-dd"><i>Note</i> : Special characters are restricted from using in domain name.</dd>
+                    <br/>
+                    <dt class="desc-item-dt">3. Create Entity</dt>
+                    <dd class="desc-item-dd">An entity is a sub-field of the domain.</dd>
+                    <dd class="desc-item-dd">Example: 'Heart Stroke'</dd>
+                    <dd class="desc-item-dd">The entities are uniquely identified by name.</dd>
+                    <dd class="desc-item-dd"><i>Note</i> : Special characters are restricted from using in entity name.</dd>
+                    <br/>
+                    <dt class="desc-item-dt">4. Upload Headers for the domain & entity combination.</dt>
+                    <dd class="desc-item-dd">The json to be posted for uploading headers should be of the format : </dd>
+                    <dd class="desc-item-dd">
+                        <code style="margin-left : 30px;" class="pre-scrollable">
+                            {
+                            "headers" : [
+                            {
+                            "index" : 0,
+                            "attributeName" : "Height",
+                            "attributeType" : "numeric"
+                            },
+                            {
+                            "index" : 1,
+                            "attributeName" : "Name",
+                            "attributeType" : "nominal",
+                            "attributeValues" ["Name1", "Name1", "Name1"]
+                            }
+                            ]
+                            }
+                        </code>
+                    </dd>
+                    <br/>
+                    <dt class="desc-item-dt">5. Upload Historical data for the domain & entity combination.</dt>
+                    <dd class="desc-item-dd">The json to be posted for uploading historical data should be of the format : </dd>
+                    <dd class="desc-item-dd">
+                        <code style="margin-left : 30px;" class="pre-scrollable">
+                            {
+                            "data" : [
+                            {
+                            "datum" : "a1,a2,a3,a4,.....,an,t"
+                            }
+                            ]
+                            }
+                        </code>
+                    </dd>
+                    <br/>
+                    <dt class="desc-item-dt">6. Upload Prediction data for the domain & entity combination.</dt>
+                    <dd class="desc-item-dd">The json to be posted for uploading prediction data should be of the format : </dd>
+                    <dd class="desc-item-dd">
+                        <code style="margin-left : 30px;" class="pre-scrollable">
+                            {
+                            "data" : [
+                            {
+                            "datum" : "a1,a2,a3,a4,.....,an,"
+                            }
+                            ]
+                            }
+                        </code>
+                    </dd>
+                </dl-->
+            </div>
+        </div>
+    </div>
+    <div class="text-center footer-container">
+        © 2016 Tricon Infotech Private Limited. All Rights Reserved.
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    /*++++++++++++++++++++++ LOGOUT FUNCTION +++++++++++++++++++++++++++*/
+    function logOut() {
+        window.sessionStorage.clear();
+        $.ajax({
+            url: '/user/logout',
+            type: 'GET',
+            success: function(response) {
+                window.location.href = '/';
+            }
+
+        });
+    }
+    /*var i;
+    var protocol = location.protocol;
+    var hostname = location.hostname;
+    var port = location.port;
+    var a = document.getElementsByClassName("protocol");
+    for (i = 0; i < a.length; ++i) {
+        var item = a[i];
+        item.innerHTML = protocol;
+    }
+    var b = document.getElementsByClassName("host");
+    for (i = 0; i < b.length; ++i) {
+        var item = b[i];
+        item.innerHTML = hostname;
+    }
+    var c = document.getElementsByClassName("port");
+    for (i = 0; i < c.length; ++i) {
+        var item = c[i];
+        item.innerHTML = port;
+    }*/
+
+
+</script>
+</body>
+</html>

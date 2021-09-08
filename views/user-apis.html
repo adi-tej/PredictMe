@@ -1,0 +1,660 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Scientific Prediction</title>
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="/css/global.css" />
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="http://requirejs.org/docs/release/2.1.11/minified/require.js"></script>
+	<style>
+		.url-information{
+			clear: both;
+            position: relative;
+			/*padding: 1%;*/
+            width: 100%;
+            float: left;
+		}
+        .info-blue{
+            color: #337ab7;
+        }
+        .info-red{
+            color: #ac2925;
+        }
+		.url-info-header{
+			color: #82b440;
+			padding-bottom: 10px;
+			padding-top: 20px;
+		}
+		pre {
+			width: 80%;
+			max-height: 400px;
+			color: #444;
+			padding: 10px;
+			background: #eee;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			word-wrap: normal;
+			white-space: pre-wrap;
+			overflow: auto;
+		}
+	</style>
+</head>
+
+<body>
+    <div class="body-container">
+        <div class="header-container">
+            <a href="/user/user-home" class=""><img alt="Scientific Prediction" src="/images/logo.png" /></a>
+						<button type="button" class="btn pull-right button" onclick="logOut()" >Sign Out</button>
+        </div>
+        <div class="main-container">
+        	<div class="row inner-container">
+            	<div class="pull-left menu-contianer">
+                	<div class="menu-header">
+                    </div>
+                    <ul class="menu-list">
+                    	<li>
+                        	<a href="/user/user-home" class="menu-link linkicon-home">Home page</a>
+                        </li>
+                        <li>
+                        	<a href="/user/user-keys" class="menu-link linkicon-keys">My Account</a>
+                        </li>
+                        <li>
+                        	<a href="#" class="menu-link linkicon-apis active">API Information</a>
+                        </li>
+						<li>
+							<a href="/user/pricing-model" class="menu-link linkicon-pricing">Pricing Details</a>
+						</li>
+                        <li>
+                            <a href="/user/email-config" class="menu-link linkicon-email-config">Event Configuration</a>
+                        </li>
+                        <li>
+                            <a href="/user/about-us" class="menu-link linkicon-about">About Us</a>
+                        </li>
+                        <li>
+                            <a href="/user/contact-us" class="menu-link linkicon-contact">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pull-left display-container">
+									<ul class="display-list-container">
+										<li class="row display-list display-list-header">
+												<div class="col-xs-5 display-action-list">
+													<span></span>
+												</div>
+												<div class="col-xs-5 display-verb-list">
+                                                    <span>METHOD</span>
+												</div>
+												<div class="col-xs-5 display-url-list">
+                                                    <span>URL</span>
+												</div>
+											</li>
+											<li class="row display-list">
+												<div class="col-xs-5 display-action-list">
+													Create Domain
+												</div>
+												<div class="col-xs-5 display-verb-list">
+													PUT
+												</div>
+												<div class="col-xs-5 display-url-list">
+													<div><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain</div>
+                                                    <div class="url-information">
+                                                        <div class="url-info-header"><span><b>API Specifications:</b></span></div>
+                                                        <div><span><b class="info-blue">Purpose: </b>To create a new Domain for an user identified by appKey and secretKey.</span></div>
+                                                        <div><span><b class="info-blue">Request Headers: </b>App Key and Secret Key are passed in headers to verify the user.</span>
+															<pre>
+	{
+	  "appKey": appKey,
+	  "secretKey": secretKey
+	}</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"appKey":</span> appKey,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"secretKey":</span>secretKey</span>
+                                                            <span>}</span--></div>
+														<div><span><b class="info-blue">Request Payload: </b>An user defined Domain Name is passed in the body.</span>
+                                                            <pre>
+        {
+          "domainName": domainName
+        }</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"domainName":</span>domainName</span>
+                                                            <span>}</span--></div>
+														<div><span><b class="info-blue">Response: </b>On creation of Domain user receives success response.</span>
+                                                            <pre>
+        {
+          "success": true,
+          "message": "User Domain created"
+        }</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"success":</span> true,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"message":</span> "User Domain created"</span>
+                                                            <span>}</span--></div>
+                                                        <div style="width: 80%;"><span><b class="info-blue">Example: </b>To create a domain named "My Domain" of an user verified by using "708ee372-b43e-4aef-b398-3b742c4647c1" as App Key and "d7ef50b0-37d9-4021-8863-94a1d0b665cd" as Secret Key</span></div>
+                                                      <div>
+                                                            <pre><span><i class="info-red">request headers: </i></span>
+                {
+                  "appKey": "708ee372-b43e-4aef-b398-3b742c4647c1",
+                  "secretKey": "d7ef50b0-37d9-4021-8863-94a1d0b665cd"
+                }
+
+<span><i class="info-red">request payload: </i></span>
+
+                {
+                  "domainName": "My Domain"
+                }
+
+<span><i class="info-red">response: </i></span>
+                {
+                  "success": true,
+                  "message": "User Domain created"
+                }</pre>
+                                                            <!--span><i>request headers- </i>{<span class="info-red">"appKey":</span> 708ee372-b43e-4aef-****-************, <span class="info-red">"secretKey":</span>d7ef50b0-37d9-4021-****-************}</span>
+                                                                                                         <span><i>request payload- </i>{<span class="info-red">"domainName":</span>"My Domain"}</span>
+                                                                                                        <span><i>response- </i>{<span class="info-red">"success":</span> true,<span class="info-red">"message":</span> "User Domain created"}</span--></div>
+                                                    </div>
+												</div>
+											</li>
+											<li class="row display-list">
+												<div class="col-xs-5 display-action-list">
+													Create Entity
+												</div>
+												<div class="col-xs-5 display-verb-list">
+													PUT
+												</div>
+												<div class="col-xs-5 display-url-list">
+                                                    <div><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/{domainName}/entity</div>
+													<div class="url-information">
+														<div class="url-info-header"><span><b>API Specifications:</b></span></div>
+														<div><span><b class="info-blue">Purpose: </b>To create a new Entity for a domain.</span></div>
+														<div><span><b class="info-blue">Request Headers: </b>App Key and Secret Key are passed in headers to verify the user.</span>
+															<pre>
+	{
+	  "appKey": appKey,
+	  "secretKey": secretKey
+	}</pre>
+															<!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"appKey":</span> appKey,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"secretKey":</span>secretKey</span>
+                                                            <span>}</span--></div>
+														<div><span><b class="info-blue">Request Payload: </b>An user defined Entity Name is passed in the body.</span>
+                                                            <pre>
+        {
+          "entityName": entityName
+        }</pre>
+															<!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"domainName":</span>domainName</span>
+                                                            <span>}</span--></div>
+														<div><span><b class="info-blue">Response: </b>On creation of Entity user receives success response.</span>
+                                                            <pre>
+        {
+          "success": true,
+          "message": "User Entity created"
+        }</pre>
+															<!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"success":</span> true,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"message":</span> "User Domain created"</span>
+                                                            <span>}</span--></div>
+														<div style="width: 80%;"><span><b class="info-blue">Example: </b>To create an entity named "My Entity" for a domain named "My Domain" of an user verified by using "708ee372-b43e-4aef-b398-3b742c4647c1" as App Key and "d7ef50b0-37d9-4021-8863-94a1d0b665cd" as Secret Key</span></div>
+														<div>
+                                                            <pre><span><i class="info-red">url: </i><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/My Domain/entity</span>
+<span><i class="info-red">request headers: </i></span>
+                {
+                  "appKey": "708ee372-b43e-4aef-b398-3b742c4647c1",
+                  "secretKey": "d7ef50b0-37d9-4021-8863-94a1d0b665cd"
+                }
+
+<span><i class="info-red">request payload: </i></span>
+
+                {
+                  "entityName": "My DomainEntity"
+                }
+
+<span><i class="info-red">response: </i></span>
+                {
+                  "success": true,
+                  "message": "User Entity created"
+                }</pre>
+															<!--span><i>request headers- </i>{<span class="info-red">"appKey":</span> 708ee372-b43e-4aef-****-************, <span class="info-red">"secretKey":</span>d7ef50b0-37d9-4021-****-************}</span>
+                                                                                                         <span><i>request payload- </i>{<span class="info-red">"domainName":</span>"My Domain"}</span>
+                                                                                                        <span><i>response- </i>{<span class="info-red">"success":</span> true,<span class="info-red">"message":</span> "User Domain created"}</span--></div>
+													</div>
+												</div>
+											</li>
+											<li class="row display-list">
+												<div class="col-xs-5 display-action-list">
+													Get All Domains
+												</div>
+												<div class="col-xs-5 display-verb-list">
+													GET
+												</div>
+												<div class="col-xs-5 display-url-list">
+                                                    <div><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain</div>
+                                                    <div class="url-information">
+                                                        <div class="url-info-header"><span><b>API Specifications:</b></span></div>
+                                                        <div><span><b class="info-blue">Purpose: </b>To get all domains of the corresponding user identified by appKey and secretKey.</span></div>
+                                                        <div><span><b class="info-blue">Request Headers: </b>App Key and Secret Key are passed in headers to verify the user.</span>
+															<pre>
+	{
+	  "appKey": appKey,
+	  "secretKey": secretKey
+	}</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"appKey":</span> appKey,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"secretKey":</span>secretKey</span>
+                                                            <span>}</span--></div>
+                                                        <div><span><b class="info-blue">Response: </b>All the domains of the user are received as an array in success response.</span>
+                                                            <pre>
+        {
+          "success": true,
+          "userDomain": [
+            {
+              "domainName": domainName
+            }
+          ]
+        }</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"success":</span> true,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"message":</span> "User Domain created"</span>
+                                                            <span>}</span--></div>
+                                                        <div style="width: 80%;"><span><b class="info-blue">Example: </b>To get domain named "My Domain" in an array of an user verified by using "708ee372-b43e-4aef-b398-3b742c4647c1" as App Key and "d7ef50b0-37d9-4021-8863-94a1d0b665cd" as Secret Key</span></div>
+                                                        <div>
+                                                            <pre><span><i class="info-red">request headers: </i></span>
+                {
+                  "appKey": "708ee372-b43e-4aef-b398-3b742c4647c1",
+                  "secretKey": "d7ef50b0-37d9-4021-8863-94a1d0b665cd"
+                }
+
+<span><i class="info-red">response: </i></span>
+                {
+                  "success": true,
+                  "userDomain": [
+                    {
+                      "domainName": "My Domain"
+                    }
+                  ]
+                }</pre>
+                                                            <!--span><i>request headers- </i>{<span class="info-red">"appKey":</span> 708ee372-b43e-4aef-****-************, <span class="info-red">"secretKey":</span>d7ef50b0-37d9-4021-****-************}</span>
+                                                                                                         <span><i>request payload- </i>{<span class="info-red">"domainName":</span>"My Domain"}</span>
+                                                                                                        <span><i>response- </i>{<span class="info-red">"success":</span> true,<span class="info-red">"message":</span> "User Domain created"}</span--></div>
+                                                    </div>
+												</div>
+											</li>
+											<li class="row display-list">
+												<div class="col-xs-5 display-action-list">
+													Get Domain
+												</div>
+												<div class="col-xs-5 display-verb-list">
+													GET
+												</div>
+												<div class="col-xs-5 display-url-list">
+                                                    <div><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/{domainName}</div>
+                                                    <div class="url-information">
+                                                        <div class="url-info-header"><span><b>API Specifications:</b></span></div>
+                                                        <div><span><b class="info-blue">Purpose: </b>To get a domain of given Domain Name.</span></div>
+                                                        <div><span><b class="info-blue">Request Headers: </b>App Key and Secret Key are passed in headers to verify the user.</span>
+															<pre>
+	{
+	  "appKey": appKey,
+	  "secretKey": secretKey
+	}</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"appKey":</span> appKey,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"secretKey":</span>secretKey</span>
+                                                            <span>}</span--></div>
+                                                        <div><span><b class="info-blue">Response: </b>The requested domain is received in success response.</span>
+                                                            <pre>
+        {
+          "success": true,
+          "userDomain": {
+            "domainName": domainName
+          }
+        }</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"success":</span> true,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"message":</span> "User Domain created"</span>
+                                                            <span>}</span--></div>
+                                                        <div style="width: 80%;"><span><b class="info-blue">Example: </b>To get a domain named "My Domain" of an user verified by using "708ee372-b43e-4aef-b398-3b742c4647c1" as App Key and "d7ef50b0-37d9-4021-8863-94a1d0b665cd" as Secret Key</span></div>
+                                                        <div>
+                                                            <pre><span><i class="info-red">url: </i><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/My Domain</span>
+<span><i class="info-red">request headers: </i></span>
+                {
+                  "appKey": "708ee372-b43e-4aef-b398-3b742c4647c1",
+                  "secretKey": "d7ef50b0-37d9-4021-8863-94a1d0b665cd"
+                }
+
+<span><i class="info-red">response: </i></span>
+                {
+                  "success": true,
+                  "userDomain": {
+                    "domainName": "My Domain"
+                  }
+                }</pre>
+                                                            <!--span><i>request headers- </i>{<span class="info-red">"appKey":</span> 708ee372-b43e-4aef-****-************, <span class="info-red">"secretKey":</span>d7ef50b0-37d9-4021-****-************}</span>
+                                                                                                         <span><i>request payload- </i>{<span class="info-red">"domainName":</span>"My Domain"}</span>
+                                                                                                        <span><i>response- </i>{<span class="info-red">"success":</span> true,<span class="info-red">"message":</span> "User Domain created"}</span--></div>
+                                                    </div>
+												</div>
+											</li>
+											<li class="row display-list">
+												<div class="col-xs-5 display-action-list">
+													Get All Entities
+												</div>
+												<div class="col-xs-5 display-verb-list">
+													GET
+												</div>
+												<div class="col-xs-5 display-url-list">
+                                                    <div><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/{domainName}/entity</div>
+                                                        <div class="url-information">
+                                                            <div class="url-info-header"><span><b>API Specifications:</b></span></div>
+                                                            <div><span><b class="info-blue">Purpose: </b>To get all entities of the user identified by appKey and secretKey.</span></div>
+                                                            <div><span><b class="info-blue">Request Headers: </b>App Key and Secret Key are passed in headers to verify the user.</span>
+															<pre>
+	{
+	  "appKey": appKey,
+	  "secretKey": secretKey
+	}</pre>
+                                                                <!--span>{</span>
+                                                                <span><span class="info-red" style="padding: 20px;">"appKey":</span> appKey,</span>
+                                                                <span><span class="info-red" style="padding: 20px;">"secretKey":</span>secretKey</span>
+                                                                <span>}</span--></div>
+                                                            <div><span><b class="info-blue">Response: </b>All the entities of a domain are received as an array in success response.</span>
+                                                            <pre>
+        {
+          "success": true,
+          "userEntity": [
+            {
+              "entityName": entityName
+            }
+          ]
+        }</pre>
+                                                                <!--span>{</span>
+                                                                <span><span class="info-red" style="padding: 20px;">"success":</span> true,</span>
+                                                                <span><span class="info-red" style="padding: 20px;">"message":</span> "User Domain created"</span>
+                                                                <span>}</span--></div>
+                                                            <div style="width: 80%;"><span><b class="info-blue">Example: </b>To get a entity named "My Entity" of a domain named "My Domain" in an array of an user verified by using "708ee372-b43e-4aef-b398-3b742c4647c1" as App Key and "d7ef50b0-37d9-4021-8863-94a1d0b665cd" as Secret Key</span></div>
+                                                            <div>
+                                                            <pre><span><i class="info-red">url: </i><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/My Domain/entity</span>
+<span><i class="info-red">request headers: </i></span>
+                {
+                  "appKey": "708ee372-b43e-4aef-b398-3b742c4647c1",
+                  "secretKey": "d7ef50b0-37d9-4021-8863-94a1d0b665cd"
+                }
+
+<span><i class="info-red">response: </i></span>
+                {
+                  "success": true,
+                  "userEntity": [
+                    {
+                      "entityName": "My Entity"
+                    }
+                  ]
+                }</pre>
+                                                                <!--span><i>request headers- </i>{<span class="info-red">"appKey":</span> 708ee372-b43e-4aef-****-************, <span class="info-red">"secretKey":</span>d7ef50b0-37d9-4021-****-************}</span>
+                                                                                                             <span><i>request payload- </i>{<span class="info-red">"domainName":</span>"My Domain"}</span>
+                                                                                                            <span><i>response- </i>{<span class="info-red">"success":</span> true,<span class="info-red">"message":</span> "User Domain created"}</span--></div>
+                                                        </div>
+												</div>
+											</li>
+											<li class="row display-list">
+												<div class="col-xs-5 display-action-list">
+													Get Entity
+												</div>
+												<div class="col-xs-5 display-verb-list">
+													GET
+												</div>
+												<div class="col-xs-5 display-url-list">
+                                                    <div><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/{domainName}/entity/{entityName}</div>
+                                                    <div class="url-information">
+                                                            <div class="url-info-header"><span><b>API Specifications:</b></span></div>
+                                                            <div><span><b class="info-blue">Purpose: </b>To get an entity of a given Entity Name.</span></div>
+                                                            <div><span><b class="info-blue">Request Headers: </b>App Key and Secret Key are passed in headers to verify the user.</span>
+															<pre>
+	{
+	  "appKey": appKey,
+	  "secretKey": secretKey
+	}</pre>
+                                                                <!--span>{</span>
+                                                                <span><span class="info-red" style="padding: 20px;">"appKey":</span> appKey,</span>
+                                                                <span><span class="info-red" style="padding: 20px;">"secretKey":</span>secretKey</span>
+                                                                <span>}</span--></div>
+                                                            <div><span><b class="info-blue">Response: </b>The requested entity of a domain is received in success response.</span>
+                                                            <pre>
+        {
+          "success": true,
+          "userEntity": {
+            "entityName": "My Entity"
+          }
+        }</pre>
+                                                                <!--span>{</span>
+                                                                <span><span class="info-red" style="padding: 20px;">"success":</span> true,</span>
+                                                                <span><span class="info-red" style="padding: 20px;">"message":</span> "User Domain created"</span>
+                                                                <span>}</span--></div>
+                                                            <div style="width: 80%;"><span><b class="info-blue">Example: </b>To get an entity named "My Entity" of a domain named "My Domain" of an user verified by using "708ee372-b43e-4aef-b398-3b742c4647c1" as App Key and "d7ef50b0-37d9-4021-8863-94a1d0b665cd" as Secret Key</span></div>
+                                                            <div>
+                                                            <pre><span><i class="info-red">url: </i><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/My Domain/entity/My Entity</span>
+<span><i class="info-red">request headers: </i></span>
+                {
+                  "appKey": "708ee372-b43e-4aef-b398-3b742c4647c1",
+                  "secretKey": "d7ef50b0-37d9-4021-8863-94a1d0b665cd"
+                }
+
+<span><i class="info-red">response: </i></span>
+                {
+                  "success": true,
+                  "userEntity": {
+                    "entityName": "My Entity"
+                  }
+                }</pre>
+                                                                <!--span><i>request headers- </i>{<span class="info-red">"appKey":</span> 708ee372-b43e-4aef-****-************, <span class="info-red">"secretKey":</span>d7ef50b0-37d9-4021-****-************}</span>
+                                                                                                             <span><i>request payload- </i>{<span class="info-red">"domainName":</span>"My Domain"}</span>
+                                                                                                            <span><i>response- </i>{<span class="info-red">"success":</span> true,<span class="info-red">"message":</span> "User Domain created"}</span--></div>
+                                                        </div>
+												</div>
+											</li>
+											<li class="row display-list">
+												<div class="col-xs-5 display-action-list">
+													Put Data Headers to an entity
+												</div>
+												<div class="col-xs-5 display-verb-list">
+													PUT
+												</div>
+												<div class="col-xs-5 display-url-list">
+                                                    <div><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/{domainName}/entity/{entityName}/data-headers</div>
+                                                    <div class="url-information">
+                                                        <div class="url-info-header"><span><b>API Specifications:</b></span></div>
+                                                        <div><span><b class="info-blue">Purpose: </b>To add Data Headers of an entity of a domain.</span></div>
+                                                        <div><span><b class="info-blue">Request Headers: </b>App Key and Secret Key are passed in headers to verify the user.</span>
+															<pre>
+	{
+	  "appKey": appKey,
+	  "secretKey": secretKey
+	}</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"appKey":</span> appKey,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"secretKey":</span>secretKey</span>
+                                                            <span>}</span--></div>
+                                                        <div><span><b class="info-blue">Request Payload: </b>An user defined headers required for data are passed in the body.</span>
+                                                            <pre>
+        {
+          "headers": headers
+        }</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"domainName":</span>domainName</span>
+                                                            <span>}</span--></div>
+                                                        <div><span><b class="info-blue">Response: </b>On creation of Headers user receives success response.</span>
+                                                            <pre>
+        {
+          "success": true,
+          "message": "Headers created"
+        }</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"success":</span> true,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"message":</span> "User Domain created"</span>
+                                                            <span>}</span--></div>
+                                                        <div style="width: 80%;"><span><b class="info-blue">Example: </b>To create headers with attribute name as "My attribute" and attribute type as "numeric" for an entity named "My Entity" of a domain named "My Domain" of an user verified by using "708ee372-b43e-4aef-b398-3b742c4647c1" as App Key and "d7ef50b0-37d9-4021-8863-94a1d0b665cd" as Secret Key</span></div>
+                                                        <div>
+                                                            <pre><span><i class="info-red">url: </i><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/My Domain/entity/My Entity/data-headers</span>
+<span><i class="info-red">request headers: </i></span>
+                {
+                  "appKey": "708ee372-b43e-4aef-b398-3b742c4647c1",
+                  "secretKey": "d7ef50b0-37d9-4021-8863-94a1d0b665cd"
+                }
+
+<span><i class="info-red">request payload: </i></span>
+
+                {
+                  "headers": {
+                    "headers": [
+                      {
+                        "index": 0,
+                        "attributeName": "My attribute",
+                        "attributeType": "numeric"
+                      }
+                    ]
+                  }
+                }
+
+<span><i class="info-red">response: </i></span>
+                {
+                  "success": true,
+                  "message": "Headers created"
+                }</pre>
+                                                            <!--span><i>request headers- </i>{<span class="info-red">"appKey":</span> 708ee372-b43e-4aef-****-************, <span class="info-red">"secretKey":</span>d7ef50b0-37d9-4021-****-************}</span>
+                                                                                                         <span><i>request payload- </i>{<span class="info-red">"domainName":</span>"My Domain"}</span>
+                                                                                                        <span><i>response- </i>{<span class="info-red">"success":</span> true,<span class="info-red">"message":</span> "User Domain created"}</span--></div>
+                                                    </div>
+												</div>
+											</li>
+											<li class="row display-list">
+												<div class="col-xs-5 display-action-list">
+													Save Historical Data and Raw Data
+												</div>
+												<div class="col-xs-5 display-verb-list">
+													PUT
+												</div>
+												<div class="col-xs-5 display-url-list">
+                                                    <div><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/{domainName}/entity/{entityName}/mode/{mode}/data</div>
+                                                    <div class="url-information">
+                                                        <div class="url-info-header"><span><b>API Specifications:</b></span></div>
+                                                        <div><span><b class="info-blue">Purpose: </b>To add Historical data and Raw data.</span></div>
+                                                        <div><span><b class="info-blue">Request Headers: </b>App Key and Secret Key are passed in headers to verify the user.</span>
+															<pre>
+	{
+	  "appKey": appKey,
+	  "secretKey": secretKey
+	}</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"appKey":</span> appKey,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"secretKey":</span>secretKey</span>
+                                                            <span>}</span--></div>
+                                                        <div><span><b class="info-blue">Request Payload: </b>The data required for training or Prediction is passed in the body.</span>
+                                                            <pre>
+        {
+          "data": data
+        }</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"domainName":</span>domainName</span>
+                                                            <span>}</span--></div>
+                                                        <div><span><b class="info-blue">Response: </b>On pushing data the user receives success response.</span>
+                                                            <pre>
+        {
+          "success": true,
+          "message": "Data is Successfully pushed! Please check your Mail!!"
+        }</pre>
+                                                            <!--span>{</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"success":</span> true,</span>
+                                                            <span><span class="info-red" style="padding: 20px;">"message":</span> "User Domain created"</span>
+                                                            <span>}</span--></div>
+                                                        <div style="width: 80%;"><span><b class="info-blue">Example: </b>To push Historical data for training with datum as "My Data" and mode "train" for an entity named "My Entity" of a domain named "My Domain" of an user verified by using "708ee372-b43e-4aef-b398-3b742c4647c1" as App Key and "d7ef50b0-37d9-4021-8863-94a1d0b665cd" as Secret Key</span></div>
+                                                        <div>
+                                                            <pre><span><i class="info-red">url: </i><span class="protocol"></span>//<span class="host"></span>:<span class="port"></span>/domain/My Domain/entity/My Entity/mode/train/data</span>
+<span><i class="info-red">request headers: </i></span>
+                {
+                  "appKey": "708ee372-b43e-4aef-b398-3b742c4647c1",
+                  "secretKey": "d7ef50b0-37d9-4021-8863-94a1d0b665cd"
+                }
+
+<span><i class="info-red">request payload: </i></span>
+
+                {
+                  "data": {
+                    "data": [
+                      {
+                        "datum": "My Data"
+                      }
+                    ]
+                  }
+                }
+
+<span><i class="info-red">response: </i></span>
+                {
+                  "success": true,
+                  "message": "Data is Successfully pushed! Please check your Mail!!"
+                }</pre>
+                                                            <!--span><i>request headers- </i>{<span class="info-red">"appKey":</span> 708ee372-b43e-4aef-****-************, <span class="info-red">"secretKey":</span>d7ef50b0-37d9-4021-****-************}</span>
+                                                                                                         <span><i>request payload- </i>{<span class="info-red">"domainName":</span>"My Domain"}</span>
+                                                                                                        <span><i>response- </i>{<span class="info-red">"success":</span> true,<span class="info-red">"message":</span> "User Domain created"}</span--></div>
+                                                    </div>
+												</div>
+											</li>
+											<!--<li class="row display-list">
+												<div class="col-xs-5 display-action-list">
+													Save Current Data for an Entity
+												</div>
+												<div class="col-xs-5 display-verb-list">
+													PUT
+												</div>
+												<div class="col-xs-5 display-url-list">
+													https://host:8080/domain/entity/save
+												</div>
+											</li>-->
+									</ul>
+                </div>
+        	</div>
+        </div>
+        <div class="text-center footer-container">
+            © 2016 Tricon Infotech Private Limited. All Rights Reserved.
+        </div>
+    </div>
+	
+	<script type="text/javascript" src="/js/email-validation.js"></script>
+	<script type="text/javascript">
+
+/*++++++++++++++++++++++ LOGOUT FUNCTION +++++++++++++++++++++++++++*/
+		function logOut() {
+            window.sessionStorage.clear();
+			$.ajax({
+				url: '/user/logout',
+				type: 'GET',
+				success: function(response) {
+					window.location.href = '/';
+				}
+
+			});
+		}
+var i;
+var protocol = location.protocol;
+var hostname = location.hostname;
+var port = location.port;
+var a = document.getElementsByClassName("protocol");
+for (i = 0; i < a.length; ++i) {
+    var item = a[i];
+    item.innerHTML = protocol;
+}
+var b = document.getElementsByClassName("host");
+for (i = 0; i < b.length; ++i) {
+    var item = b[i];
+    item.innerHTML = hostname;
+}
+var c = document.getElementsByClassName("port");
+for (i = 0; i < c.length; ++i) {
+    var item = c[i];
+    item.innerHTML = port;
+}
+
+
+	</script>
+</body>
+</html>

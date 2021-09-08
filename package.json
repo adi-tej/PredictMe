@@ -1,0 +1,43 @@
+{
+  "name": "scipre",
+  "version": "1.0.0",
+  "main": "app.js",
+  "dependencies": {
+    "async": "^1.5.2",
+    "body-parser": "^1.19.0",
+    "connect": "^3.7.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "cookie-session": "^2.0.0-beta.3",
+    "crypto": "0.0.3",
+    "ejs": "^2.6.1",
+    "express": "^4.17.1",
+    "express-session": "^1.16.1",
+    "html": "^1.0.0",
+    "log4js": "^0.6.38",
+    "mandrill": "^0.1.0",
+    "mongodb": "^2.2.36",
+    "mongoose": "^4.13.18",
+    "mongoskin": "^2.1.0",
+    "morgan": "^1.9.1",
+    "node-mandrill": "^1.0.1",
+    "nodemailer": "^2.7.2",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "parse-express-cookie-session": "^0.0.3",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "promise": "^7.3.1",
+    "request": "^2.88.0",
+    "sendgrid": "^2.0.0",
+    "serve-static": "^1.14.1",
+    "underscore": "^1.9.1",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

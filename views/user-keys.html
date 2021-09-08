@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Scientific Prediction</title>
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="/css/global.css" />
+	<!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="http://requirejs.org/docs/release/2.1.11/minified/require.js"></script>
+	<script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
+	<script type="text/javascript" src="/js/message-pop-up.js"></script>
+
+	<link href="/css/message-pop-up.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <div class="body-container">
+        <div class="header-container">
+            <a href="/user/user-home" class=""><img alt="Scientific Prediction" src="/images/logo.png" /></a>
+						<button type="button" class="btn pull-right button" onclick="logOut()">Sign Out</button>
+        </div>
+        <div class="main-container">
+        	<div class="row inner-container">
+            	<div class="pull-left menu-contianer">
+                	<div class="menu-header">
+									</div>
+									<ul class="menu-list">
+										<li>
+											<a href="/user/user-home" class="menu-link linkicon-home">Home page</a>
+										</li>
+										<li>
+											<a href="#" class="menu-link linkicon-keys active">My Account</a>
+										</li>
+										<li>
+											<a href="/user/user-apis" class="menu-link linkicon-apis">API Information</a>
+										</li>
+										<li>
+											<a href="/user/pricing-model" class="menu-link linkicon-pricing">Pricing Details</a>
+										</li>
+										<li>
+											<a href="/user/email-config" class="menu-link linkicon-email-config">Event Configuration</a>
+										</li>
+										<li>
+											<a href="/user/about-us" class="menu-link linkicon-about">About Us</a>
+										</li>
+										<li>
+											<a href="/user/contact-us" class="menu-link linkicon-contact">Contact Us</a>
+										</li>
+									</ul>
+                </div>
+                <div class="pull-left display-container">
+                    <div class="margin-top">
+                    	<button onclick="generateUserAppSecretKeys()" id="generatekey" class="btn btn-primary" style="width: 7.5%">Generate Key</button>
+                      <button onclick="sendMailUsingCloud()" id="sendmail" class="btn btn-primary" style="width: 7.5%">Send Mail</button>
+                    </div>
+                    <div class="hidden" id="keys-container">
+											<div class="margin-top" id="app-key"></div>
+											<div class="margin-top" id="secret-key"></div>
+                    </div>
+                    <div class="margin-top">
+                            <button onclick="window.open('/predict')" class="btn btn-primary">Click here to Proceed to Prediction</button>
+                    </div>
+                    </br>
+					<hr>
+                    </br>
+					<div class="change-password-container">
+						<button type="button" id="change-password-button" class="btn btn-primary plus-icon">Change your password here</button>
+                        <form class="change-password-input" id="signUpForm">
+                            <div class="form-group signin-password">
+                                    <input type="password" placeholder="old password" id="oldPassword" class="change-password" style="margin: 0 0; width: 152px;" />
+                                <h6 class="change-oldPassword-error hidden" style="color: red;"> * Please enter old password.</h6>
+                            </div>
+                            <div class="form-group signin-password">
+                                    <input type="password" placeholder="new password" id="newPassword" class="change-password" style="margin: 0 0; width: 152px;" />
+                                <h6 class="change-newPassword-error hidden" style="color: red;"> * Please enter new password.</h6>
+                            </div>
+                            <div class="form-group signin-password">
+                                    <input type="password" placeholder="retype new password" id="newPasswordAgain" class="change-password" style="margin: 0 0; width: 152px;" />
+                                <h6 class="confirm-password-error hidden" style="color: red;"> * Please confirm new password.</h6>
+                            </div>
+                            <h6 class="password-match-error hidden" style="color: red;"> * The passwords are not matching.</h6>
+							<button 56 type="button" class="btn btn-primary" onclick="changePassword(event)">Change Password</button>
+
+                        </form>
+					</div>
+                </div>
+        	</div>
+        </div>
+        <div class="text-center footer-container">
+            © 2016 Tricon Infotech Private Limited. All Rights Reserved.
+        </div>
+    </div>
+	
+	<script type="text/javascript" src="/js/email-validation.js"></script>
+	<script type="text/javascript">
+		$('document').ready(function () {
+			$.ajax({
+				url: '/user/userdecryptkeys',
+				type: 'POST',
+				success: function(response) {
+					if(response.success){
+						document.getElementById('generatekey').disabled = true;
+						document.getElementById('sendmail').disabled = false;
+						$('#keys-container').removeClass('hidden');
+						document.getElementById("app-key").innerHTML = "<b>Your appKey: </b><span>" + response.appKey + "</span>";
+						document.getElementById("secret-key").innerHTML = "<b>Your secretKey: </b><span>" + response.secretKey + "</span>";
+					} else {
+						document.getElementById('generatekey').disabled = false;
+						document.getElementById('sendmail').disabled = true;
+					}
+				},
+				error: function (response) {
+					
+				}
+			});
+		});
+
+/*++++++++++++++++++++++ LOGOUT FUNCTION +++++++++++++++++++++++++++*/
+		function logOut() {
+            window.sessionStorage.clear();
+			$.ajax({
+				url: '/user/logout',
+				type: 'GET',
+				success: function(response) {
+					window.location.href = '/';
+				}
+
+			});
+		}
+
+/*++++++++++++++++ APP KEY AND SECRET KEY GENERATION +++++++++++++++++++++*/
+		function generateUserAppSecretKeys() {
+			$.ajax({
+				url: '/user/userAppSecretKeys',
+				type: 'POST',
+				success: function(response) {
+					if(response.success){
+						document.getElementById('generatekey').disabled = true;
+						document.getElementById('sendmail').disabled = false;
+						$('#keys-container').removeClass('hidden');
+						document.getElementById("app-key").innerHTML = "<b>Your appKey: </b><span>" + response.appKey + "</span>";
+						document.getElementById("secret-key").innerHTML = "<b>Your secretKey: </b><span>" + response.secretKey + "</span>";
+                        window.sessionStorage.setItem('appKey', response.appKey);
+                        window.sessionStorage.setItem('secretKey', response.secretKey);
+					} else {
+						popup("generating keys failed: "+ response.message);
+					}
+				},
+				error: function (error) {
+					popup("Error in generating keys:"+error);
+				}
+			});
+		}
+
+/*++++++++++++++++++++++ SEND MAIL FUNCTION +++++++++++++++++++++++++++*/
+		function sendMailUsingCloud(){
+			var appKey = window.sessionStorage.appKey;
+			var secretKey = window.sessionStorage.secretKey;
+			$.ajax({
+				url: '/user/sendmail',
+				type: 'POST',
+				data: JSON.stringify({appKey:appKey,secretKey:secretKey}),
+				contentType: "application/json",
+				success: function(response) {
+					if(response.success){
+						popup("Mail sent successfully");
+					} else {
+						popup("Could not send Mail");
+					}
+				},
+				error: function (error) {
+					console.log("Sendmail Error:"+error);
+				}
+			});	
+		}
+  /*++++++++++++++++++++++ CHANGE PASSWORD +++++++++++++++++++++++*/
+
+		function changePassword(event){
+			event.preventDefault();
+            var oldPassword = $('#oldPassword').val();
+            var newPassword = $('#newPassword').val();
+            var newPasswordAgain = $('#newPasswordAgain').val();
+
+            $(".change-oldPassword-error").addClass("hidden");
+            $(".change-newPassword-error").addClass("hidden");
+            $(".confirm-password-error").addClass("hidden");
+            $(".password-match-error").addClass("hidden");
+
+            if (!oldPassword) {
+                $(".change-oldPassword-error").removeClass("hidden");
+                return false;
+            } else if (!newPassword) {
+                $(".change-newPassword-error").removeClass("hidden");
+                return false;
+            } else if (!newPasswordAgain) {
+                $(".confirm-password-error").removeClass("hidden");
+                return false;
+            } else if (newPassword !== newPasswordAgain) {
+                $(".password-match-error").removeClass("hidden");
+                return false;
+            }
+			$.ajax({
+				url: '/verifyOldPassword',
+				type: 'POST',
+				data: JSON.stringify({oldPassword:oldPassword}),
+				contentType: "application/json",
+				success: function(response) {
+					if(response.success){
+                        $.ajax({
+                            url: '/changePassword',
+                            type: 'POST',
+                            data: JSON.stringify({newPassword:newPassword}),
+                            contentType: "application/json",
+                            success: function(response) {
+
+                                    popup(response.message);
+                                $('#change-password-button').addClass("plus-icon");
+                                $('#change-password-button').removeClass("mines-icon");
+                                $('#change-password-button').next(".change-password-input").hide();
+								$('#oldPassword').val('');
+                                $('#newPassword').val('');
+                                $('#newPasswordAgain').val('');
+
+                            },
+                            error: function (error) {
+                                console.log("Error:"+error);
+                            }
+                        });
+					} else {
+						popup(response.message);
+					}
+				},
+				error: function (error) {
+					console.log("Error:"+error);
+				}
+			});
+		}
+
+	</script>
+    <script type="text/javascript">
+        $('#change-password-button').click(function () {
+            if ($(this).hasClass('plus-icon')) {
+                $(this).toggleClass("plus-icon");
+                $(this).toggleClass("mines-icon");
+                $(this).next(".change-password-input").toggle();
+            }else{
+                $(this).toggleClass("plus-icon");
+                $(this).toggleClass("mines-icon");
+                $(this).next(".change-password-input").toggle();
+            }
+
+        });
+    </script>
+
+</body>
+</html>

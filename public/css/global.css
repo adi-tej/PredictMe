@@ -1,0 +1,277 @@
+html, body {
+    height: 100%;
+}
+ul, li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.body-container {
+    background-color: #a9e4b5;
+    height: 100%;
+}
+.header-container {
+	background-color: #232323;
+}
+.main-container {
+	height: -webkit-calc(100% - 97px);
+	height: calc(100% - 97px);
+}
+.footer-container {
+	background-color: #F9F9F9;
+	border-top: 1px solid #c9c9c9;
+	/*box-shadow: 0 0 5px 3px #757575;*/
+	padding: 10px;
+}
+.entry-panel-container {
+	height: 100%;
+	overflow: auto;
+	padding: 10% 0 0;
+}
+.entry-panel-container .panel {
+    border: 0 none;
+    -webkit-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.75);
+	box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.75);
+	margin: 0 auto;
+	width: 350px;
+}
+.entry-panel-container .panel .panel-heading {
+    background-color: #57a066;
+	color: #ffffff;
+    font-weight: bold;
+}
+.form-group .input-group {
+    width: 100%;
+}
+.signin-username .glyphicon {
+    background: #57a066 url("../images/username-icon.png") no-repeat scroll 0 2px;
+    border: medium none;
+    -webkit-box-shadow: 0 -1px 0 0 #57a066;
+	box-shadow: 0 -1px 0 0 #57a066;
+    width: 36px;
+}
+.signin-password .glyphicon {
+	background: #57a066 url("../images/password-icon.png") no-repeat scroll 0 2px;
+    border: medium none;
+    -webkit-box-shadow: 0 -1px 0 0 #57a066;
+	box-shadow: 0 -1px 0 0 #57a066;
+    width: 36px;
+}
+.entry-panel-container .btn-primary {
+    background-color: #6a982d;
+    border: medium none;
+    font-weight: bold;
+}
+.terms-services {
+	padding: 0 0 5px;
+}
+.has-error .control-label {
+    display: block !important;
+}
+.show-email-id .valid-email {
+	display: none !important;
+}
+.show-vaild-email .email-id {
+	display: none !important;
+}
+.inner-container {
+	background-color: #fff;
+	height: 100%;
+	margin: 0;
+}
+.menu-contianer {
+	background-color: #61a170;
+    -webkit-box-shadow: 5px 0 10px 0px #757575;
+	box-shadow: 5px 0 10px 0px #757575;
+	color: #fff;
+	display: inline-block;
+	height: 100%;
+    width: 250px;
+    z-index: 8;
+}
+.menu-contianer .menu-header {
+    border-bottom: 2px solid #fff;
+	font-weight: bold;
+    padding: 8px 10px;
+}
+.display-container {
+	height: 100%;
+	padding-left: 15px;
+	width: -webkit-calc(100% - 250px);
+	width: calc(100% - 250px);
+	overflow-y: scroll;
+    overflow-x: hidden;
+}
+.display-header {
+	color: #FFF;
+	background-color: #61a170;
+	font-weight: bold;
+    font-size: 16px;
+	padding: 8px;
+}
+.button {
+	background-color: #6a982d;
+	border-radius: 5px;
+	color: #fff;
+    padding: 5px 10px;
+    margin: 10px 10px 0 0;
+}
+.display-list-container {
+	
+}
+.display-list {
+	border-bottom: 1px solid #cccccc;
+	margin: 0;
+	padding: 5px 0;
+}
+.display-list.display-list-header {
+	border-bottom: 1px solid #78cd89;
+	font-weight: bold;
+}
+.display-list .display-action-list {
+	width: 250px;
+}
+.display-list .display-verb-list {
+	width: 125px;
+}
+.display-list .display-url-list {
+	width: -webkit-calc(100% - 375px);
+	width: calc(100% - 375px);
+}
+.menu-list li {
+	border-bottom: 1px solid #dddddd;
+}
+.menu-list .menu-link {
+    color: #fff;
+	font-size: 16px;
+    display: inline-block;
+	padding: 10px 10px 10px 50px;
+	position: relative;
+    width: 100%;
+}
+.menu-list .menu-link.linkicon-home {
+	background: url("../images/icon-home.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-home.active, .menu-list .menu-link.linkicon-home:hover {
+	background: #fff url("../images/icon-home-active.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-keys {
+	background: url("../images/icon-keys.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-keys.active, .menu-list .menu-link.linkicon-keys:hover {
+	background: #fff url("../images/icon-keys-active.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-apis {
+	background: url("../images/icon-api.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-apis.active, .menu-list .menu-link.linkicon-apis:hover {
+	background: #fff url("../images/icon-api-active.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-about {
+	background: url("../images/icon-aboutus.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-about.active, .menu-list .menu-link.linkicon-about:hover {
+	background: #fff url("../images/icon-aboutus-active.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-pricing {
+	background: url("../images/icon-price.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-pricing.active, .menu-list .menu-link.linkicon-pricing:hover {
+	background: #fff url("../images/icon-pricing-active.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-contact {
+	background: url("../images/icon-contactus.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-contact.active, .menu-list .menu-link.linkicon-contact:hover {
+	background: #fff url("../images/icon-contactus-active.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-email-config {
+	background: url("../images/icon-emailconfig.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link.linkicon-email-config.active, .menu-list .menu-link.linkicon-contact:hover {
+	background: #fff url("../images/icon-emailconfig-active.png") no-repeat 12px 7px;
+}
+.menu-list .menu-link:hover, .menu-list .menu-link.active {
+    background-color: #fff;
+	color: #61a170;
+    text-decoration: blink;
+}
+.menu-list .menu-link.active:before {
+    content: "";
+    position: absolute;
+    right: -15px;
+    top: 1px;
+    background-color: #fff;
+    height: -webkit-calc(100% - 2px);
+	height: calc(100% - 2px);
+    width: 30px;
+}
+.btn.btn-primary {
+    background-color: #82b440;
+    border: 0 none;
+    box-shadow: 0 2px 0 #6f9a37;
+    color: #ffffff;
+}
+.change-password-container .btn-primary.plus-icon {
+	background-image: url(../images/plus-icon.png);
+	background-position: 5px 6px;
+	background-repeat: no-repeat;
+	padding: 8px 8px 8px 40px;
+	width: 15%;
+    text-align: left;
+    margin: 0;
+}
+.change-password-container .btn-primary.mines-icon {
+	background-image: url(../images/mines-icon.png);
+	background-position: 5px 6px;
+	background-repeat: no-repeat;
+	padding: 8px 8px 8px 40px;
+	width: 15%;
+	text-align: left;
+	margin: 0;
+
+}
+.change-password-input {
+	display: none;
+	padding: 15px;
+	border-top: 0;
+}
+.change-password-input input {
+	margin: 0 0 0 50px;
+	width: 40%;
+}
+.change-password-container .btn {
+	font-size: 16px;
+}
+.margin-top {
+	margin-top: 10px;
+}
+.key-input {
+	margin: 0 5px;
+}
+@media (max-height: 500px) {
+	.entry-panel-container {
+		padding-top: 5px;
+	}
+	.entry-panel-container .panel .panel-heading {
+		padding: 5px;
+	}
+	.entry-panel-container .panel-body {
+		padding: 10px 15px 5px;
+	}
+}
+@media (max-width: 400px) {
+	.entry-panel-container .panel {
+		width: 300px;
+	}
+}
+.desc-list {
+	margin-left : 40px;
+}
+/*.desc-item-dt {
+	margin-left : 50px;
+}*/
+.desc-item-dd {
+	margin-left : 30px;
+	display	: list-item;
+}

@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Scientific Prediction</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/global2.css" />
+	<!--<script type="text/javascript" src="/js/jquery.min.js"></script>-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	<script src="http://requirejs.org/docs/release/2.1.11/minified/require.js"></script>
+
+	<script src="/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+        var baseUrl = '/predictme/v1';
+    </script>
+	<!-- <link rel="stylesheet" href="loader.css" type="text/css"> -->
+    <style type="text/css">
+        .myclass {
+			clear: both;
+        }
+        .testsuite{
+            text-align: center;
+            color: #FFFFFF;
+			float: inherit;
+            font-family: "Times New Roman";
+        }
+        .home-link{
+			float: right;
+        }
+
+    </style>
+</head>
+<body>
+	<div class="body-container">
+		<div class="header-container">
+            <div class="myclass">
+				<a href="/user/login" target="_blank" class="home-link"><img alt="Logo" src="/images/logo2.png"/><span class="home-link-text">click to LOGIN</span></a>
+                <h1 class="testsuite">TEST SUITE</h1>
+            </div>
+        </div>
+		<div class="main-container">
+				<div class="inner-container">
+							<input type="text" id="appKey" class="appKey" placeholder="App Key" />
+							<input type="text" id="secretKey" class="secretKey" placeholder="Secret Key" />
+							<div class="create-domain" style="margin-top:15px;">
+								<button type="button"  id="domain-create-button" class="btn btn-primary create-domain-button plus-icon">Create Domain or select your Domain container</button>
+								<div class="create-domain-input">
+										<div class="create-data">
+												<input type="text" id="domainName" style="margin:0;" />
+												<button type="button" class="btn btn-primary" onclick="createDomain()">Create Domain</button>
+										</div>
+								</div>
+							</div>
+							<div class="create-domain">
+									<button type="button" onclick="getUserDomains()" id="entity-create-button" class="btn btn-primary create-domain-button plus-icon">Create entity or select your Entity container</button>
+									<div class="create-domain-input">
+											<select class="domainList" id="domainList" style="width: 150px; margin: 0 10px;">
+												<option selected disabled>Choose a Domain</option>
+											</select>
+											<input type="text" placeholder="Entity Name" id="entityName" class="entityName" style="margin: 0 0; width: 140px;" />
+											<button 56 type="button" class="btn btn-primary create-entity-button" onclick="createEntity()">Create Entity</button>
+							
+									</div>
+							</div>
+							<div class="create-domain">
+									<button type="button"  onclick="getUserDomains()" id="headers-data-button" class="btn btn-primary create-domain-button plus-icon">Headers container</button>
+									<div class="create-domain-input">
+											<div class="create-data">
+													<select class="domainList" id="domainList2" style="width: 150px; margin: 0 10px;">
+														<option selected disabled>Choose a Domain</option>
+													</select>
+													<select class="entityList" id="entityList2" style="width: 150px; margin: 0 10px;">
+														<option selected disabled>Choose an Entity</option>
+													</select>
+													<button type="button" class="btn btn-primary" onclick="pushEntityData()">Add Data Headers</button>
+													<div class="entityDataForm">
+															<textarea id="headers" style="height: 150px; width: 100%; margin-top: 10px;"></textarea>
+													</div>
+											</div>
+					</div>
+							</div>
+							<div class="create-domain">
+								<button type="button" onclick="getUserDomains()" id="current-data-button" class="btn btn-primary create-domain-button plus-icon">Test Data container</button>
+								<div class="create-domain-input">
+									<div class="create-data">
+										<select class="domainList" id="domainList3" style="width: 150px; margin: 0 10px;">
+											<option selected disabled>Choose a Domain</option>
+										</select>
+										<select class="entityList" id="entityList3" style="width: 150px; margin: 0 10px;">
+											<option selected disabled>Choose an Entity</option>
+										</select>
+                                        <select class="mode" id="mode" style="width: 150px; margin: 0 10px;">
+                                            <option selected disabled>Choose a Mode</option>
+                                            <option selected>train</option>
+                                            <option selected>predict</option>
+                                        </select>
+										<button type="button" onclick="pushCurrentData()" class="btn btn-primary">Enter Data</button>
+										<div>
+											<textarea id="entityData2" style="height: 150px; width: 100%; margin-top: 10px;"></textarea>
+										</div>
+
+									</div>
+								</div>
+							</div>
+					</div>
+			</div>
+	</div>
+
+	<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="closeModal()" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>      
+    </div>
+  </div>
+	<div id="loader" class="loader hidden">
+		<img class="loader-gif" src="/loader.gif" alt="Loading..." style="">
+	</div>
+	<style>
+		.loader{
+			background-color: rgba(255, 255, 255, 0.4);
+			display: inline-block;
+			height: 100%;
+			left: 0;
+			position: fixed;
+			top: 0;
+			width: 100%;
+			z-index: 2;
+		}
+		.loader-gif{
+			width: 80px;
+			height: 80px;
+			display: inline-block;
+			position: absolute;
+			top: 44%;
+			left: 47%;
+		}
+	</style>
+	<script type="text/javascript">
+		$('document').ready(function () {
+
+
+			$('#domainList2').change(function () {
+				var dropdown = $(this);
+				console.log(dropdown.val());
+
+				var appKey = $('#appKey').val();
+				var secretKey = $('#secretKey').val();
+				var domainName= dropdown.val();
+
+				$('#loader').removeClass('hidden');
+
+				$.ajax({
+					url: baseUrl+'/domain/'+domainName+'/entity',
+					type: 'GET',
+					beforeSend: function (request)
+					{
+						request.setRequestHeader("appKey", appKey);
+						request.setRequestHeader("secretKey", secretKey);
+					},
+					contentType: "application/json",
+					success: function(response) {
+                        if(response.success) {
+						var str = '';
+						str += '<option selected disabled>Choose an Entity</option>';
+						for( var i=0; i< response.userEntity.length; i++){
+							str += '<option>' + response.userEntity[i].entityName + '</option>'
+						}
+						$('#entityList2').html(str);
+
+						$('#loader').addClass('hidden');
+                        }else{
+                            $('#loader').addClass('hidden');
+                            $('#myModal').find('p').html(response.message);
+                            $('#myModal').addClass("in").show();
+                        }
+					},
+					error: function (error) {
+						$('#loader').addClass('hidden');
+					}
+				});
+			});
+
+
+
+			$('#domainList3').change(function () {
+				var dropdown = $(this);
+				//console.log(dropdown.val());
+
+				var appKey = $('#appKey').val();
+				var secretKey = $('#secretKey').val();
+				var domainName= dropdown.val();
+                //var modeValues = ['train', 'predict'];
+
+				$('#loader').removeClass('hidden');
+
+				$.ajax({
+					url: baseUrl+'/domain/'+domainName+'/entity',
+					type: 'GET',
+                    beforeSend: function (request)
+                    {
+                        request.setRequestHeader("appKey", appKey);
+                        request.setRequestHeader("secretKey", secretKey);
+                    },
+					contentType: "application/json",
+					success: function(response) {
+                        if(response.success) {
+                            var str = '';
+                            str += '<option selected disabled>Choose an Entity</option>';
+                            for (var i = 0; i < response.userEntity.length; i++) {
+                                str += '<option>' + response.userEntity[i].entityName + '</option>'
+                            }
+                            $('#entityList3').html(str);
+                            $('#loader').addClass('hidden');
+                        }else{
+                            $('#loader').addClass('hidden');
+                            $('#myModal').find('p').html(response.message);
+                            $('#myModal').addClass("in").show();
+                        }
+					},
+					error: function (error) {
+						$('#loader').addClass('hidden');
+						//bootbox.alert("Error in creating entity" + error);
+					}
+				});
+			});
+
+		});
+
+		function closeModal(){
+			$('#myModal').removeClass("in").hide();
+		}
+
+/*++++++++++++ CREATE DOMAIN +++++++++++++++++++++++++*/
+		function createDomain() {
+			var appKey = $('#appKey').val();
+			var secretKey = $('#secretKey').val();
+			var domainName= $('#domainName').val();
+
+			$('#loader').removeClass('hidden');
+
+			$.ajax({
+				url: baseUrl+'/domain',
+				type: 'PUT',
+				beforeSend: function (request)
+				{
+					request.setRequestHeader("appKey", appKey);
+					request.setRequestHeader("secretKey", secretKey);
+				},
+				data: JSON.stringify({domainName:domainName}),
+				contentType: "application/json",
+				success: function(response) {
+                    console.log(response);
+
+
+					if(response.success){
+                        $('#loader').addClass('hidden');
+					    $('#myModal').find('p').html(response.message);
+                        $('#myModal').addClass("in").show();
+					$('.entityForm').removeClass('hidden');
+
+					} else {
+                        $('#loader').addClass('hidden');
+                        $('#myModal').find('p').html(response.message+" Please try again ");
+                        $('#myModal').addClass("in").show();
+					 }
+
+				},
+				error: function (error) {
+					$('#loader').addClass('hidden');
+					$('#myModal').find('p').html('Creating domain failed..Please try again:');
+					$('#myModal').addClass("in").show();
+				}
+			});
+		}
+/*++++++++++++ CREATE ENTITY +++++++++++++++++++++++++*/
+		function createEntity() {
+			var appKey = $('#appKey').val();
+			var secretKey = $('#secretKey').val();
+			var domainName= $('#domainList').val();
+			var entityName= $('#entityName').val();
+
+			$('#loader').removeClass('hidden');
+
+			$.ajax({
+				url: baseUrl+'/domain/'+domainName+'/entity',
+				type: 'PUT',
+                beforeSend: function (request)
+                {
+                    request.setRequestHeader("appKey", appKey);
+                    request.setRequestHeader("secretKey", secretKey);
+                },
+				data: JSON.stringify({entityName:entityName}),
+				contentType: "application/json",
+				success: function(response) {
+                    if(response.success) {
+                        $('#loader').addClass('hidden');
+                        $('#myModal').find('p').html(response.message);
+                        $('#myModal').addClass("in").show();
+                    }else{
+                        $('#loader').addClass('hidden');
+                        $('#myModal').find('p').html(response.message);
+                        $('#myModal').addClass("in").show();
+                    }
+				},
+
+				error: function (error) {
+					$('#loader').addClass('hidden');
+					$('#myModal').find('p').html('Error in creating Entity:' +error);
+					$('#myModal').addClass("in").show();
+				}
+			});
+		}
+
+/*++++++++++++ PUT DATA HEADERS +++++++++++++++++++++++++*/
+		function pushEntityData() {
+			var appKey = $('#appKey').val();
+			var secretKey = $('#secretKey').val();
+			//var headerText = $("#headers").val();
+            var headers = $("#headers").val();
+			var domainName= $('#domainList2').val();
+			var entityName= $('#entityList2').val();
+			if (!appKey || !secretKey ||!domainName || !entityName || !headers) {
+				$('#myModal').find('p').html('Please provide all the required fields.. \n"App Key", "Secret Key", "Domain", "Entity", "Headers"..');
+				$('#myModal').addClass("in").show();
+				return;
+			}
+
+			$('#loader').removeClass('hidden');
+            try {
+                headers = JSON.parse(headers);
+				if( headers.dataHeaders) {
+                    //console.log(headers.dataHeaders.length);
+                    $.ajax({
+                        url: baseUrl + '/domain/' + domainName + '/entity/' + entityName + '/data-headers',
+                        method: 'PUT',
+                        beforeSend: function (request)
+                        {
+                            request.setRequestHeader("appKey", appKey);
+                            request.setRequestHeader("secretKey", secretKey);
+                        },
+                        data: JSON.stringify({headers: headers}),
+                        contentType: "application/json",
+                        success: function (response) {
+                            $('#loader').addClass('hidden');
+                            if (response.success) {
+                                $('#myModal').find('p').html(response.message);
+                                $('#myModal').addClass("in").show();
+                            } else {
+                                $('#myModal').find('p').html("success failed"+response.message);
+                                $('#myModal').addClass("in").show();
+                            }
+                        },
+                        error: function (error) {
+                            $('#loader').addClass('hidden');
+                            $('#myModal').find('p').html('Error in Pushing Data Entity:' + error);
+                            $('#myModal').addClass("in").show();
+                        }
+                    });
+                }else{
+                    $('#loader').addClass('hidden');
+                    $('#myModal').find('p').html('Please input Valid JSON data');
+                    $('#myModal').addClass("in").show();
+                }
+            }catch(e){
+                $('#loader').addClass('hidden');
+                $('#myModal').find('p').html('Please input Valid JSON data');
+                $('#myModal').addClass("in").show();
+            }
+		}
+/*++++++++++++ PUT DATA +++++++++++++++++++++++++*/
+		function pushCurrentData() {
+            var appKey = $('#appKey').val();
+            var secretKey = $('#secretKey').val();
+			var data = $('#entityData2').val();
+			//var entityData = $("#entityData").val();
+
+			var domainName= $('#domainList3').val();
+			var entityName= $('#entityList3').val();
+            var mode = $('#mode').val();
+
+            if (!appKey || !secretKey || !domainName || !entityName || !mode || !data) {
+                $('#myModal').find('p').html('Please provide all the required fields.. \n"App Key", "Secret Key", "Domain", "Entity", "mode", "Data"..');
+                $('#myModal').addClass("in").show();
+                return;
+            }
+
+			$('#loader').removeClass('hidden');
+            try {
+                data = JSON.parse(data);
+                //console.log(data.data.length);
+                if(data.data) {
+                    $.ajax({
+                        url: baseUrl + '/domain/' + domainName + '/entity/' + entityName + '/mode/' + mode + '/data',
+                        method: 'PUT',
+                        beforeSend: function (request)
+                        {
+                            request.setRequestHeader("appKey", appKey);
+                            request.setRequestHeader("secretKey", secretKey);
+                        },
+                        data: JSON.stringify({data: data}),
+                        contentType: "application/json",
+                        success: function (response) {
+                            $('#loader').addClass('hidden');
+
+                            if (response.success) {
+                                $('#myModal').find('p').html(response.message);
+                                $('#myModal').addClass("in").show();
+
+                            } else {
+                                $('#myModal').find('p').html(response.message);
+                                $('#myModal').addClass("in").show();
+                            }
+                        },
+                        error: function (error) {
+                            console.log("ui ajax" + error);
+                            $('#loader').addClass('hidden');
+                            $('#myModal').find('p').html('Pushing test Data failed..Please try again:');
+                            $('#myModal').addClass("in").show();
+                        }
+                    });
+                }else{
+                    $('#loader').addClass('hidden');
+                    $('#myModal').find('p').html('Please input Valid JSON data');
+                    $('#myModal').addClass("in").show();
+                }
+            }catch(e){
+                $('#loader').addClass('hidden');
+                $('#myModal').find('p').html('Please input Valid JSON data');
+                $('#myModal').addClass("in").show();
+
+            }
+		}
+/*++++++++++++ GET DOMAINS +++++++++++++++++++++++++*/
+		function getUserDomains() {
+			var appKey = $('#appKey').val();
+			var secretKey = $('#secretKey').val();
+
+			if (!appKey || !secretKey) {
+				return;
+			}
+
+			$('#loader').removeClass('hidden');
+
+			$.ajax({
+				url: baseUrl+'/domain',
+				//url: '/predictme/v1/domain',
+				type: 'GET',
+				beforeSend: function (request)
+				{
+					request.setRequestHeader("appKey", appKey);
+					request.setRequestHeader("secretKey", secretKey);
+				},
+				contentType: "application/json",
+				success: function(response) {
+                    if(response.success) {
+                        var str = '';
+                        str += '<option selected disabled>Choose a Domain</option>';
+                        for (var i = 0; i < response.userDomain.length; i++) {
+                            str += '<option>' + response.userDomain[i].domainName + '</option>';
+                        }
+                        $('#domainList').html(str);
+                        $('#domainList2').html(str);
+                        $('#domainList3').html(str);
+
+                        str = '<option selected disabled>Choose an Entity</option>';
+                        $('#entityList2').html(str);
+                        $('#entityList3').html(str);
+
+                        $('#loader').addClass('hidden');
+                    }else{
+                        $('#loader').addClass('hidden');
+
+                        $('#myModal').find('p').html(response.message);
+                        $('#myModal').addClass("in").show();
+
+                    }
+				},
+				error: function (error) {
+					$('#loader').addClass('hidden');
+
+					$('#myModal').find('p').html('Error in getting domains'+ error);
+					$('#myModal').addClass("in").show();
+
+				}
+			});
+		}
+
+/*++++++++++++ GET ENTITIES +++++++++++++++++++++++++*/
+		function getUserEntities() {
+            var appKey = $('#appKey').val();
+            var secretKey = $('#secretKey').val();
+			var domainName =$('#domainList').val();
+
+			$('#loader').removeClass('hidden');
+
+			$.ajax({
+				url: baseUrl+'/domain/'+domainName+'/entity',
+				type: 'GET',
+				beforeSend: function (request)
+				{
+					request.setRequestHeader("appKey", appKey);
+					request.setRequestHeader("secretKey", secretKey);
+				},
+				contentType: "application/json",
+				success: function(response) {
+                if(response.success) {
+                    var str = '';
+                    str += '<option selected disabled>Choose an Entity</option>';
+                    for (var i = 0; i < response.userEntity.length; i++) {
+                        str += '<option>' + response.userEntity[i].entityName + '</option>';
+                    }
+                    $('#entityList2').html(str);
+                    $('#entityList3').html(str);
+
+                    $('#loader').addClass('hidden');
+                }else{
+                    $('#loader').addClass('hidden');
+                    $('#myModal').find('p').html(response.message);
+                    $('#myModal').addClass("in").show();
+                }
+				},
+				error: function (error) {
+					$('#loader').addClass('hidden');
+					$('#myModal').find('p').html('Error in getting entities'+ error);
+					$('#myModal').addClass("in").show();
+
+				}
+			});
+		}
+
+	</script>
+	<script type="text/javascript">
+		$('#domain-create-button').click(function () {
+			if ($(this).hasClass('plus-icon')) {
+                var appKey = $('#appKey').val();
+                var secretKey = $('#secretKey').val();
+				
+				if (!appKey || !secretKey) {
+					$('#myModal').find('p').html('Please enter "App Key" & "Secret Key"..');
+					$('#myModal').addClass("in").show();
+				} else {
+					$(this).toggleClass("plus-icon");
+					$(this).toggleClass("mines-icon");
+					$(this).next(".create-domain-input").toggle();
+				}
+			} else {
+				$(this).toggleClass("plus-icon");
+				$(this).toggleClass("mines-icon");
+				$(this).next(".create-domain-input").toggle();
+			}
+			
+			$('#entity-create-button').addClass("plus-icon");
+			$('#entity-create-button').removeClass("mines-icon");
+			$('#entity-create-button').next(".create-domain-input").hide();
+			
+			$('#headers-data-button').addClass("plus-icon");
+			$('#headers-data-button').removeClass("mines-icon");
+			$('#headers-data-button').next(".create-domain-input").hide();
+
+            $('#current-data-button').addClass("plus-icon");
+            $('#current-data-button').removeClass("mines-icon");
+            $('#current-data-button').next(".create-domain-input").hide();
+
+		});
+
+		$('#entity-create-button').click(function () {
+			if ($(this).hasClass('plus-icon')) {
+                var appKey = $('#appKey').val();
+                var secretKey = $('#secretKey').val();
+				
+				if (!appKey || !secretKey) {
+					$('#myModal').find('p').html('Please enter "App Key" & "Secret Key"..');
+					$('#myModal').addClass("in").show();
+				} else {
+					$(this).toggleClass("plus-icon");
+					$(this).toggleClass("mines-icon");
+					$(this).next(".create-domain-input").toggle();
+				}
+			} else {
+				$(this).toggleClass("plus-icon");
+				$(this).toggleClass("mines-icon");
+				$(this).next(".create-domain-input").toggle();
+			}
+			
+			$('#domain-create-button').addClass("plus-icon");
+			$('#domain-create-button').removeClass("mines-icon");
+			$('#domain-create-button').next(".create-domain-input").hide();
+			
+			$('#headers-data-button').addClass("plus-icon");
+			$('#headers-data-button').removeClass("mines-icon");
+			$('#headers-data-button').next(".create-domain-input").hide();
+
+            $('#current-data-button').addClass("plus-icon");
+            $('#current-data-button').removeClass("mines-icon");
+            $('#current-data-button').next(".create-domain-input").hide();
+
+		});
+
+		$('#headers-data-button').click(function () {
+			if ($(this).hasClass('plus-icon')) {
+                var appKey = $('#appKey').val();
+                var secretKey = $('#secretKey').val();
+				
+				if (!appKey || !secretKey) {
+					$('#myModal').find('p').html('Please enter "App Key" & "Secret Key"..');
+					$('#myModal').addClass("in").show();
+				} else {
+					$(this).toggleClass("plus-icon");
+					$(this).toggleClass("mines-icon");
+					$(this).next(".create-domain-input").toggle();
+				}
+			} else {
+				$(this).toggleClass("plus-icon");
+				$(this).toggleClass("mines-icon");
+				$(this).next(".create-domain-input").toggle();
+			}
+			
+			$('#domain-create-button').addClass("plus-icon");
+			$('#domain-create-button').removeClass("mines-icon");
+			$('#domain-create-button').next(".create-domain-input").hide();
+			
+			$('#entity-create-button').addClass("plus-icon");
+			$('#entity-create-button').removeClass("mines-icon");
+			$('#entity-create-button').next(".create-domain-input").hide();
+
+            $('#current-data-button').addClass("plus-icon");
+            $('#current-data-button').removeClass("mines-icon");
+            $('#current-data-button').next(".create-domain-input").hide();
+
+		});
+
+		$('#current-data-button').click(function () {
+			if ($(this).hasClass('plus-icon')) {
+                var appKey = $('#appKey').val();
+                var secretKey = $('#secretKey').val();
+
+				if (!appKey || !secretKey) {
+					$('#myModal').find('p').html('Please enter "App Key" & "Secret Key"..');
+					$('#myModal').addClass("in").show();
+				} else {
+					$(this).toggleClass("plus-icon");
+					$(this).toggleClass("mines-icon");
+					$(this).next(".create-domain-input").toggle();
+				}
+			} else {
+				$(this).toggleClass("plus-icon");
+				$(this).toggleClass("mines-icon");
+				$(this).next(".create-domain-input").toggle();
+			}
+
+			$('#domain-create-button').addClass("plus-icon");
+			$('#domain-create-button').removeClass("mines-icon");
+			$('#domain-create-button').next(".create-domain-input").hide();
+
+			$('#entity-create-button').addClass("plus-icon");
+			$('#entity-create-button').removeClass("mines-icon");
+			$('#entity-create-button').next(".create-domain-input").hide();
+
+			$('#headers-data-button').addClass("plus-icon");
+			$('#headers-data-button').removeClass("mines-icon");
+			$('#headers-data-button').next(".create-domain-input").hide();
+		});
+	</script>
+</body>
+</html>

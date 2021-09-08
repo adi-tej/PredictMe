@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Scientific Prediction</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/global.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://requirejs.org/docs/release/2.1.11/minified/require.js"></script>
+	<script type="text/javascript" src="/js/message-pop-up.js"></script>
+
+	<link href="/css/message-pop-up.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="body-container">
+    <div class="header-container">
+        <a href="#" class=""><img alt="Scientific Prediction" src="/images/logo.png" /></a>
+        <button type="button" class="btn pull-right button" onclick="logOut()" >Sign Out</button>
+    </div>
+    <div class="main-container">
+        <div class="row inner-container">
+            <div class="pull-left menu-contianer">
+                <div class="menu-header">
+                </div>
+                <ul class="menu-list">
+                    <li>
+                        <a href="/user/user-home" class="menu-link linkicon-home">Home page</a>
+                    </li>
+                    <li>
+                        <a href="/user/user-keys" class="menu-link linkicon-keys">My Account</a>
+                    </li>
+                    <li>
+                        <a href="/user/user-apis" class="menu-link linkicon-apis">API Information</a>
+                    </li>
+					<li>
+                        <a href="/user/pricing-model" class="menu-link linkicon-pricing">Pricing Details</a>
+                    </li>
+					<li>
+						<a href="#" class="menu-link linkicon-email-config active">Event Configuration</a>
+					</li>
+					<li>
+                        <a href="/user/about-us" class="menu-link linkicon-about">About Us</a>
+                    </li>
+                    <li>
+                        <a href="/user/contact-us" class="menu-link linkicon-contact">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class='pull-left display-container'>
+						
+			</br>
+			<h3>Please configure your settings for getting notifications at different events through different media.</h3>
+			
+			<hr>
+			<div class="col-md-event-config" height="20px" color="black" >
+			<h4> Select The Events</h4><br>
+			<ul>
+				<li>
+				<input id="hypothesisCreation"  type = "checkbox" value="checked"> Hypothesis Creation</input>
+				</li>
+				<br>
+				<li>
+				<input id="duringPrediction"  type = "checkbox"> During Prediction</input>
+				</li>
+				<br>
+				<li>
+				<input id="resetPasswordConfirmation"  type = "checkbox"> Password Reset Confirmation</input>
+				</li>
+				
+			</ul>
+			</div>
+			
+			<div class="col-md-event-config" >
+        
+			<h4>Select Media(s)</h4>
+			</br>
+			<ul>
+				<li>
+				<input id="usingEmail"  type = "checkbox"> Email</input>
+				</li>
+				<br>
+				<li>
+				<input id="usingText"  type = "checkbox" disabled="disabled"> Text Message</input>
+				</li>
+				<br>
+				<li>
+				<input id="shareOnFacebook"  type = "checkbox" disabled="disabled"> Facebook</input>
+				</li>
+				<br>
+				<li>
+				<input id="reTweetOnTwitter"  type = "checkbox" disabled="disabled"> Twitter</input>
+				</li>
+                </br>
+                
+			</ul>
+			</div>
+                <div class="col-md-8">
+                    <button id="submitConfig" class="btn button pull-left" value="Update Configuration" onclick="eventHandler()"> Update Configuration</button>
+                </div>
+				
+            </div>
+			
+				
+			
+        </div>
+    </div>
+    <div class="text-center footer-container">
+        � 2015 Tricon Infotech Private Limited. All Rights Reserved.
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $.ajax({
+        url: '/user/emailConfiguration',
+        type: 'GET',
+        success: function(response) {
+            if(response.success){
+
+                $('#hypothesisCreation').prop('checked', JSON.parse(response.events[0]));
+                $('#duringPrediction').prop('checked', JSON.parse(response.events[1]));
+                $('#resetPasswordConfirmation').prop('checked', JSON.parse(response.events[2]));
+                $('#usingEmail').prop('checked', JSON.parse(response.media[0]));
+                $('#usingText').prop('checked', JSON.parse(response.media[1]));
+                $('#shareOnFacebook').prop('checked', JSON.parse(response.media[2]));
+                $('#reTweetOnTwitter').prop('checked', JSON.parse(response.media[3]));
+
+
+
+
+
+            }else{
+                popup(response.message);
+            }
+        }
+
+    });
+
+});
+    /*++++++++++++++++++++++ LOGOUT FUNCTION +++++++++++++++++++++++++++*/
+    function logOut() {
+        window.sessionStorage.clear();
+        $.ajax({
+            url: '/user/logout',
+            type: 'GET',
+            success: function(response) {
+                window.location.href = '/';
+            }
+
+        });
+    }
+
+
+	/*+++++++++++++++++++++++++ EVENT HANDLER ++++++++++++++++++++++++*/
+	function eventHandler(){
+	var hypothesisCreation= $('#hypothesisCreation').is(':checked');
+	var duringPrediction= $('#duringPrediction').is(':checked');
+	var resetPasswordConfirmation= $('#resetPasswordConfirmation').is(':checked');
+    var usingEmail= $('#usingEmail').is(':checked');
+    var usingText= $('#usingText').is(':checked');
+    var shareOnFacebook= $('#shareOnFacebook').is(':checked');
+    var reTweetOnTwitter= $('#reTweetOnTwitter').is(':checked');
+	 $.ajax({
+            url: '/user/emailConfiguration',
+            type: 'POST',
+			data: JSON.stringify({
+                hypothesisCreation:hypothesisCreation,
+                duringPrediction:duringPrediction,
+                resetPasswordConfirmation:resetPasswordConfirmation,
+                "usingEmail":usingEmail,
+                "usingText":usingText,
+                "shareOnFacebook":shareOnFacebook,
+                "reTweetOnTwitter":reTweetOnTwitter
+            }),
+				contentType: "application/json",
+            success: function(response) {
+           if(response.success){
+		   popup(response.message);
+		   }else{
+		   popup(response.message);
+		   }
+          }
+
+        });
+	}
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Existing User</title>
+</head>
+<body>
+<table style="width: 690px; border-collapse: collapse; margin:0 auto;">
+   <thead>
+		<tr>
+			<td style="background: none repeat scroll 0 0 #89cc97; height: 25px;"></td>
+		</tr>
+		<tr>
+			<td style="background: none repeat scroll 0 0 #2C2C2C; overflow: hidden;">
+				 <div class="large-6 left" style="float: left; padding: 22px 28px 27px; position: relative; width: 50%;">
+				      <div class="logoConnect"><img src="http://192.168.1.120:8081/img/logo.png"></div>
+		         </div>
+		         <div class="body_contents" style="float: right; color: rgb(255, 255, 255);  margin-top: 2em; margin-right: 3em;"><span style="color:#6a982d">${todaysDate}</span></div>
+			</td>
+		</tr>
+   </thead>
+   <tbody style=" color: #4D4D4D; font-family: arial;font-size: 16px;">
+		<tr>
+			<td style="padding-top: 2em; font-size: 25px; font-weight: bold;"><span>Hi,${name}!</span></td>
+		</tr>
+		<tr>
+			<td style="padding-top: 2em;"><span>Your colleague, <b>${instructorInfoName}</b>, has invited you to join Connect as a <b>${role}</b> for the</br>
+			course <b>${courseName}</b>.</span></td>
+		</tr>
+		<tr>
+			<td style="text-align: center; padding-top: 2em;">
+			<a style="color: #6a982d; text-decoration: none;" href="${loginURL}"><div class="btn body_contents" id="signIn_button" style="background-color:#6a982d; font-size: 16px; padding: 8px 10px 7px;font-weight: bold;border-radius: 3px; display: inline-block; color: #ffffff;">Sign in to PredictMe</div></a>
+			</td>
+       </tr>
+	   <tr><td style="background-color:#FFF; padding-top: 2em; padding-bottom: 5em;"><span>Sincerely,</span><br><span>Predict Me Team</span></td></tr>
+   </tbody>
+   <tfoot style="clear: both; height: 35px;">
+		 <tr style="font-size: 13px; font-weight: bold;">
+			<td style="background: none repeat scroll 0 0 #2C2C2C; padding-top: 10px; padding-bottom: 10px; color: #6a982d; text-align:center; ">
+			&copy; ${currentYear} Tricon infotech. All rights reserved. 
+			</td>
+		</tr>
+   </tfoot>
+</table>
+</body>
+</html>

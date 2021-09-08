@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0057)http://192.168.1.201/scientificprediction/dev/signup.html -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link type="text/css" rel="stylesheet" href="bootstrap/3.3.5/css/bootstrap.min.css">
+		<link type="text/css" rel="stylesheet" href="css/global.css">
+		<script src="jquery/1.11.3/jquery.min.js"></script>
+		<script type="text/javascript" src="parse-latest/js/parse-latest-10Oct15.js"></script>
+		<script src="bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+	</head>
+<body>
+<script type="text/javascript">
+    function validateSignup (event) {
+			//Parse.initialize("I73JG3eKRzEbMzrPzsLNNdTlkUC21IFqApXq0uU5", "4ibe7GteSIw1pJV4q66CRSINEmISq6q8DsS5kbJp");  // ashwini
+			Parse.initialize("rn1Mhdyhe14gTyef5LDDp0LsSqyVMbLlS9EheNVg", "65qpTzN8g5LO255iQt3tlFHyzSGDlWgSI365biOB");	// anilk
+			event.preventDefault();
+			var hasError = false;
+			var currentUser = Parse.User.current();
+			if (currentUser) {
+				// do stuff with the user
+				Parse.User.logOut();
+			}
+			
+			var emailID = $('input[placeholder="Email Address"]').val();
+			var password = $('input[placeholder="Password"]').val();
+			var confirmPassword = $('input[placeholder="Confirm Password"]').val();
+			
+			if(emailID == ''){
+				 $('input[placeholder="Email Address"]').parents('.signin-username').addClass('has-error show-email-id');
+				 return false;
+			}else if(IsEmail(emailID)==false){
+				$('input[placeholder="Email Address"]').parents('.signin-username').removeClass('has-error show-email-id');
+				$('input[placeholder="Email Address"]').parents('.signin-username').addClass('has-error show-vaild-email');
+				return false;
+			}else{
+				$('.signin-username').removeClass('has-error show-vaild-email show-email-id');
+			}
+			
+			if(password == ''){
+				console.log('one');
+				$('input[placeholder="Password"]').parents('.signin-password').addClass('has-error no-password  ').removeClass('show-confirm-password');
+				hasError = true;
+				
+			} else {
+				console.log('1');
+				$('input[placeholder="Password"]').parents('.signin-password').removeClass('no-password');
+				hasError = true;
+			}
+			
+			 if(confirmPassword == ''){
+				console.log('two');
+				$('input[placeholder="Confirm Password"]').parents('.signin-password').addClass('has-error no-password ').removeClass('show-confirm-password');
+				hasError = true;
+				
+			}
+			else if (password !== confirmPassword) {
+				console.log('3');
+				$('input[placeholder="Confirm Password"]').parents('.signin-password').addClass('has-error show-confirm-password ').removeClass('no-password');
+				$('input[placeholder="Password"]').parents('.signin-password').addClass('has-error show-confirm-password ').removeClass('no-password');
+				hasError = true;
+				
+			}
+			else{
+				console.log('4');
+				$('.signin-password').removeClass('has-error show-confirm-password no-password');
+				hasError = true;
+				
+			}
+			
+			if (! hasError) {
+				$.ajax({
+					url: '/user/signup',
+					type: 'POST',
+					data: JSON.stringify({username: emailID, password: password}),
+					contentType: "application/json",
+					success: function(response) {
+						if(response.user){
+							window.sessionStorage.setItem('user_id', response.user.objectId);
+							console.log("SignUp success");
+							window.location.href = "user-apis.html";
+						}
+						else{
+							alert(response.message);
+						}
+					},
+					error: function (error) {
+						console.log("SignUp Error:"+error.message);
+					}
+				});
+			}
+		}
+</script>
+    <div class="body-container">
+        <div class="header-container">
+            <a href="index.html" class=""><img alt="Scientific Prediction" src="./images/logo.png"></a>
+        </div>
+        <div class="main-container">
+          <div class="entry-panel-container">
+            <div class="panel panel-primary">
+            	<div class="panel-heading text-center">
+                	Access your dashboard
+                </div>
+                <div class="panel-body">
+									<form onsubmit="return(validateSignup(event));" no-validate>
+										<div class="form-group signin-username">
+													<div class="input-group">
+														<input type="text" placeholder="Email Address" class="form-control">
+														<span class="input-group-addon glyphicon"></span>
+													</div>
+													<h6 class="control-label valid-email hidden"> Please enter a valid email.</h6>
+													<h6 class="control-label email-id hidden"> Please Enter Email ID.</h6>
+											</div>
+											<div class="form-group signin-password">
+													<div class="input-group">
+															<input type="password" class="form-control" id="password" placeholder="Password">
+															<span class="input-group-addon glyphicon"></span>
+													</div>
+													<h6 class="control-label no-password  hidden"> Please enter password.</h6>
+													<h6 class="control-label confirm-password hidden"> Your password did not match.</h6>
+											</div>
+											<div class="form-group signin-password">
+													<div class="input-group">
+															<input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password">
+															<span class="input-group-addon glyphicon"></span>
+													</div>
+													<h6 class="control-label no-password hidden"> Please enter password.</h6>
+													<h6 class="control-label confirm-password hidden"> Your password did not match.</h6>
+											</div>
+											<div class="terms-services">
+													Signing up signifies that you have read and agree to the <a href="javascript:;">Terms of Service</a> and <a href="javascript:;">Privacy Policy</a>.
+											</div>
+											<button type="submit" class="btn btn-primary login pull-right">Signup</button>
+									</form>
+								</div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center footer-container">
+            © 2015 Tricon Infotech Private Limited. All Rights Reserved.
+        </div>
+    </div>
+<script type="text/javascript" src="./js/email-validation.js"></script>
+
+
+</body></html>

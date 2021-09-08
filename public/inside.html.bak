@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Try Magic</title>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/global.css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<script src="https://www.parsecdn.com/js/parse-latest.js"></script>
+		<script src="http://requirejs.org/docs/release/2.1.11/minified/require.js"></script>
+		<script type="text/javascript">
+		
+			$('document').ready(function () {
+				$('#domainList2').change(function () {
+					var dropdown = $(this);
+					console.log(dropdown.val());
+					
+					var appKey = $('#appKey').val();
+					var secretKey = $('#secretKey').val();
+					var domainName= dropdown.val();
+					
+					$.ajax({
+							url: 'https://predictme.parseapp.com/prediction/v1/domain/'+domainName+'/entity',
+							type: 'GET',
+							beforeSend: function (request)
+							{
+								request.setRequestHeader("appKey", appKey);
+								request.setRequestHeader("secretKey", secretKey);
+							},
+							contentType: "application/json",
+							success: function(response) {
+								
+									var str = '';
+									str += '<option selected disabled>Choose an Entity</option>'
+									for( var i=0; i< response.length; i++){
+										str += '<option>' + response[i].name + '</option>'
+									}
+									$('#entityList2').html(str);
+									
+								
+							},
+								error: function (error) {
+									//bootbox.alert("Error in creating entity" + error);
+							}
+					});
+				})
+			});
+			
+			function closeModal(){
+					$('#myModal').removeClass("in").hide();
+				}
+				
+			function createDomain() {
+				var appKey = $('#appKey').val();
+				var secretKey = $('#secretKey').val();
+				var domainName= $('#domainName').val();
+						
+				$.ajax({
+						url: 'https://predictme.parseapp.com/prediction/v1/domain',
+						type: 'POST',
+						data: JSON.stringify({appKey: appKey,secretKey:secretKey,domainName:domainName}),
+						contentType: "application/json",
+						success: function(response) {
+							//if(response.success){
+									////bootbox.alert("Domain creation was successful!");
+								 $('#myModal').find('p').html('Domain creation was successful!');
+									$('#myModal').addClass("in").show();
+								getUserDomains();
+								$('.entityForm').removeClass('hidden');
+								
+							/*} else {
+									alert("Creating domain failed..Please try again: "+ response.message);
+							}*/
+							
+						},
+							error: function (error) {
+								 $('#myModal').find('p').html('Creating domain failed..Please try again:');
+									$('#myModal').addClass("in").show();
+						}
+				});
+			}
+				
+		function createEntity() {
+			var appKey = $('#appKey').val();
+			var secretKey = $('#secretKey').val();
+			//var domainName= $('#domainName').val();
+			var domainName= $('#domainList').val();
+			var entityName= $('#entityName').val();
+					
+			$.ajax({
+					url: 'https://predictme.parseapp.com/prediction/v1/domain/'+domainName+'/entity',
+					type: 'POST',
+					data: JSON.stringify({appKey:appKey,secretKey:secretKey,entityName:entityName}),
+					contentType: "application/json",
+					success: function(response) {
+								////bootbox.alert("Entity creation was successful!");
+									$('#myModal').find('p').html('Entity creation was successful!');
+									$('#myModal').addClass("in").show();							//getUserEntities();
+							//$('.entityDataForm').removeClass('hidden');
+							
+							
+						},
+												
+						error: function (error) {
+							////bootbox.alert("Error in creating Entity:"+ error);
+							$('#myModal').find('p').html('Error in creating Entity:' +error);
+									$('#myModal').addClass("in").show();
+						}
+			});
+		}
+					
+		function pushEntityData() {
+			var appKey = $('#appKey').val();
+			var entityData = JSON.parse($("#entityData").val());
+			//var entityData = $("#entityData").val();
+			var secretKey = $('#secretKey').val();
+			var domainName= $('#domainList2').val();
+			var entityName= $('#entityList2').val();
+			
+			entityData.domainName = domainName;
+			entityData.entityName = entityName;
+			entityData.appKey = appKey;
+			entityData.secretKey = secretKey;
+					
+			$.ajax({
+					url: 'https://predictme.parseapp.com/user/data/domain/entity/save-all',
+					method: 'POST',
+					/*data: JSON.stringify({appKey:appKey,secretKey:secretKey,domainName:domainName,entityName:entityName,entityData:entityData}),*/
+					data: JSON.stringify(entityData),
+					contentType: "application/json",
+					success: function(response) {
+						if(response.success){
+									$('#myModal').find('p').html('Data was Successfully pushed!');
+									$('#myModal').addClass("in").show();
+								
+									
+									
+								} else {
+									$('#myModal').find('p').html('Pushing Entity Data failed..Please try again:'+ response.message);
+									$('#myModal').addClass("in").show();
+																			
+								}
+						
+					},
+						error: function (error) {
+									$('#myModal').find('p').html('Error in Pushing Data Entity:'+ error);
+									$('#myModal').addClass("in").show();
+									
+									}
+			});
+		}
+		
+		function pushCurrentData() {
+			var appKey = $('#appKey').val();
+			var entityData = JSON.parse($("#entityData2").val());
+			//var entityData = $("#entityData").val();
+			var secretKey = $('#secretKey').val();
+			var domainName= $('#domainList2').val();
+			var entityName= $('#entityList2').val();
+			
+			entityData.domainName = domainName;
+			entityData.entityName = entityName;
+			entityData.appKey = appKey;
+			entityData.secretKey = secretKey;
+					
+			$.ajax({
+					url: 'https://predictme.parseapp.com/user/data/domain/entity/save',
+					method: 'POST',
+					/*data: JSON.stringify({appKey:appKey,secretKey:secretKey,domainName:domainName,entityName:entityName,entityData:entityData}),*/
+					data: JSON.stringify(entityData),
+					contentType: "application/json",
+					success: function(response) {
+						if(response.success){
+									$('#myModal').find('p').html('Data to be predicted is Successfully pushed!');
+									$('#myModal').addClass("in").show();
+								
+									
+									
+								} else {
+									$('#myModal').find('p').html('Pushing Test Data failed..Please try again:'+ response.message);
+									$('#myModal').addClass("in").show();
+																			
+								}
+						
+					},
+						error: function (error) {
+							$('#myModal').find('p').html('Pushing test Data failed..Please try again:'+ response.message);
+									$('#myModal').addClass("in").show();
+							}
+			});
+		}
+				
+		function getUserDomains() {
+			var appKey = $('#appKey').val();
+			var secretKey = $('#secretKey').val();
+					
+			$.ajax({
+					url: 'https://predictme.parseapp.com/prediction/v1/domain',
+					type: 'GET',
+					beforeSend: function (request)
+					{
+						request.setRequestHeader("appKey", appKey);
+						request.setRequestHeader("secretKey", secretKey);
+					},
+					contentType: "application/json",
+					success: function(response) {
+						
+							var str = '';
+							for( var i=0; i< response.length; i++){
+								str += '<option>' + response[i].name + '</option>'
+							}
+							$('#domainList').append(str);
+							$('#domainList2').append(str);
+						 
+						
+					},
+						error: function (error) {
+							$('#myModal').find('p').html('Error in getting domains'+ error);
+									$('#myModal').addClass("in").show();
+							
+					}
+			});
+		}
+			function getUserEntities() {
+			var appKey = $('#appKey').val();
+			var secretKey = $('#secretKey').val();
+			var domainName=$('#domainList').val();	
+			$.ajax({
+					url: 'https://predictme.parseapp.com/prediction/v1/domain/'+domainName+'/entity',
+					type: 'GET',
+					beforeSend: function (request)
+					{
+						request.setRequestHeader("appKey", appKey);
+						request.setRequestHeader("secretKey", secretKey);
+					},
+					contentType: "application/json",
+					success: function(response) {
+						
+							var str = '';
+							for( var i=0; i< response.length; i++){
+								str += '<option>' + response[i].name + '</option>'
+							}
+							$('#entityList2').append(str);
+							
+						
+					},
+						error: function (error) {
+							$('#myModal').find('p').html('Error in getting entities'+ error);
+									$('#myModal').addClass("in").show();
+									
+					}
+			});
+		}
+	</script>
+
+<body>
+<div class="body-container">
+	<div class="header-container">
+    	<a href="javascript:;" class="home-link"><img alt="Logo" src="images/logo.png"/><span class="home-link-text">Trymagic.com</span></a>
+    </div>
+	<div class="main-container">
+    	<div class="inner-container">
+            <input type="text" id="appKey" class="appKey" placeholder="App Key" />
+            <input type="text" id="secretKey" class="secretKey" placeholder="Secret Key" />
+            <div class="create-domain" style="margin-top:15px;">
+            	<button type="button" id="domain-create-button" class="btn btn-primary create-domain-button plus-icon">Create Domain container</button>
+							<div class="create-domain-input">
+									<div class="create-data">
+											<input type="text" id="domainName" style="margin:0;" />
+											<button type="button" class="btn btn-primary" onclick="createDomain()">Create Domain</button>
+									</div>
+							</div>
+            </div>
+            <div class="create-domain">
+                <button type="button" id="entity-create-button" class="btn btn-primary create-domain-button plus-icon">Create entity container</button>
+                <div class="create-domain-input">
+                    <select class="domainList" id="domainList" style="width: 150px; margin: 0 10px;">
+											<option selected disabled>Choose a Domain</option>
+										</select>
+                    <input type="text" placeholder="Entity Name" id="entityName" class="entityName" style="margin: 0 0; width: 140px;" />
+										<button type="button" class="btn btn-primary create-entity-button" onclick="createEntity()">Create Entity</button>
+                </div>
+            </div>
+            <div class="create-domain">
+                <button type="button" id="historical-data-button" class="btn btn-primary create-domain-button plus-icon">Entity Data container</button>
+                <div class="create-domain-input">
+                    <div class="create-data">
+                        <select class="domainList" id="domainList2" style="width: 150px; margin: 0 10px;">
+													<option selected disabled>Choose a Domain</option>
+												</select>
+                        <select class="entityList" id="entityList2" style="width: 150px; margin: 0 10px;">
+													<option selected disabled>Choose an Entity</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" onclick="pushEntityData()">upload historical Data</button>
+                        <div class="entityDataForm">
+                            <textarea id="entityData" style="height: 150px; width: 100%; margin-top: 10px;"></textarea>
+                        </div>
+                    </div>
+				</div>
+            </div>
+            <div class="create-domain">
+                <button type="button" id="current-data-button" class="btn btn-primary create-domain-button plus-icon">Test Data container</button>
+                <div class="create-domain-input">
+                    <button type="button" onclick="pushCurrentData()" class="btn btn-primary">Enter Data</button>
+                    <div>
+                        <textarea id="entityData2" style="height: 150px; width: 100%; margin-top: 10px;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="closeModal()" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>      
+    </div>
+  </div>
+<script type="text/javascript">
+/*$(".create-domain-button").click(function(){
+	$(this).toggleClass("plus-icon");
+	$(this).toggleClass("mines-icon");
+	$(this).next(".create-domain-input").toggle();
+});
+$(".create-domain-inner-button").click(function(){
+	$(this).next(".create-entity").show();	
+});
+$(".create-entity-button").click(function(){
+	$(this).next(".create-data").show();	
+});*/
+
+$('#domain-create-button').click(function () {
+	$(this).toggleClass("plus-icon");
+	$(this).toggleClass("mines-icon");
+	$(this).next(".create-domain-input").toggle();
+	
+	$('#entity-create-button').addClass("plus-icon");
+	$('#entity-create-button').removeClass("mines-icon");
+	$('#entity-create-button').next(".create-domain-input").hide();
+	
+	$('#historical-data-button').addClass("plus-icon");
+	$('#historical-data-button').removeClass("mines-icon");
+	$('#historical-data-button').next(".create-domain-input").hide();
+	
+	$('#current-data-button').addClass("plus-icon");
+	$('#current-data-button').removeClass("mines-icon");
+	$('#current-data-button').next(".create-domain-input").hide();
+});
+
+$('#entity-create-button').click(function () {
+	$(this).toggleClass("plus-icon");
+	$(this).toggleClass("mines-icon");
+	$(this).next(".create-domain-input").toggle();
+	
+	$('#domain-create-button').addClass("plus-icon");
+	$('#domain-create-button').removeClass("mines-icon");
+	$('#domain-create-button').next(".create-domain-input").hide();
+	
+	$('#historical-data-button').addClass("plus-icon");
+	$('#historical-data-button').removeClass("mines-icon");
+	$('#historical-data-button').next(".create-domain-input").hide();
+	
+	$('#current-data-button').addClass("plus-icon");
+	$('#current-data-button').removeClass("mines-icon");
+	$('#current-data-button').next(".create-domain-input").hide();
+});
+
+$('#historical-data-button').click(function () {
+	$(this).toggleClass("plus-icon");
+	$(this).toggleClass("mines-icon");
+	$(this).next(".create-domain-input").toggle();
+	
+	$('#domain-create-button').addClass("plus-icon");
+	$('#domain-create-button').removeClass("mines-icon");
+	$('#domain-create-button').next(".create-domain-input").hide();
+	
+	$('#entity-create-button').addClass("plus-icon");
+	$('#entity-create-button').removeClass("mines-icon");
+	$('#entity-create-button').next(".create-domain-input").hide();
+	
+	$('#current-data-button').addClass("plus-icon");
+	$('#current-data-button').removeClass("mines-icon");
+	$('#current-data-button').next(".create-domain-input").hide();
+});
+
+$('#current-data-button').click(function () {
+	$(this).toggleClass("plus-icon");
+	$(this).toggleClass("mines-icon");
+	$(this).next(".create-domain-input").toggle();
+	
+	$('#domain-create-button').addClass("plus-icon");
+	$('#domain-create-button').removeClass("mines-icon");
+	$('#domain-create-button').next(".create-domain-input").hide();
+	
+	$('#entity-create-button').addClass("plus-icon");
+	$('#entity-create-button').removeClass("mines-icon");
+	$('#entity-create-button').next(".create-domain-input").hide();
+	
+	$('#historical-data-button').addClass("plus-icon");
+	$('#historical-data-button').removeClass("mines-icon");
+	$('#historical-data-button').next(".create-domain-input").hide();
+});
+
+</script>
+</body>
+</html>

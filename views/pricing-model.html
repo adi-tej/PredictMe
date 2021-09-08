@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Scientific Prediction</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/global.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://requirejs.org/docs/release/2.1.11/minified/require.js"></script>
+</head>
+
+<body>
+<div class="body-container">
+    <div class="header-container">
+        <a href="#" class=""><img alt="Scientific Prediction" src="/images/logo.png" /></a>
+        <button type="button" class="btn pull-right button" onclick="logOut()" >Sign Out</button>
+    </div>
+    <div class="main-container">
+        <div class="row inner-container">
+            <div class="pull-left menu-contianer">
+                <div class="menu-header">
+                </div>
+                <ul class="menu-list">
+                    <li>
+                        <a href="/user/user-home" class="menu-link linkicon-home">Home page</a>
+                    </li>
+                    <li>
+                        <a href="/user/user-keys" class="menu-link linkicon-keys">My Account</a>
+                    </li>
+                    <li>
+                        <a href="/user/user-apis" class="menu-link linkicon-apis">API Information</a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link linkicon-pricing active">Pricing Details</a>
+                    </li>
+                    <li>
+                        <a href="/user/email-config" class="menu-link linkicon-email-config">Event Configuration</a>
+                    </li>
+                    <li>
+                        <a href="/user/about-us" class="menu-link linkicon-about">About Us</a>
+                    </li>
+                    <li>
+                        <a href="/user/contact-us" class="menu-link linkicon-contact">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class='pull-left display-container' style="padding-top:35px;">
+                <div class="col-md-2 col-sm-3 col-xs-4">
+                    <div class="list-group">
+                        <div class="list-group-item" style="text-align:center; background-color:#61a170; color:#fff;">Free Plan</div>
+                        <img src="/images/free.png" class="list-group-item img-responsive"/>
+                        <div class="list-group-item" style="text-align:center;">1GB of storage space for training data</div>
+                        <div class="list-group-item" style="text-align:center;">10,000 predictions</div>
+                        <div class="list-group-item" style="text-align:center;">Email Support</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-3 col-xs-4">
+                    <div class="list-group">
+                        <div class="list-group-item" style="text-align:center; background-color:#61a170; color:#fff;">Top-Up Plan A</div>
+                        <img src="/images/top-up-1.png" class="list-group-item img-responsive"/>
+                        <div class="list-group-item" style="text-align:center;">10GB of storage space for training data</div>
+                        <div class="list-group-item" style="text-align:center;">10,00,000 predictions</div>
+                        <div class="list-group-item" style="text-align:center;">Support over Email & Phone</div>
+                        <div class="list-group-item" style="text-align:center;">$49.99</div>
+                        <button type="button" class="list-group-item" style="text-align:center; background-color:#47A9EB; color:#fff;">Buy Now</button>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-3 col-xs-4">
+                    <div class="list-group">
+                        <div class="list-group-item" style="text-align:center; background-color:#61a170; color:#fff;">Top-Up Plan B</div>
+                        <img src="/images/top-up-2.png" class="list-group-item img-responsive"/>
+                        <div class="list-group-item" style="text-align:center;">100GB of storage space for training data</div>
+                        <div class="list-group-item" style="text-align:center;">10,00,00,000 predictions</div>
+                        <div class="list-group-item" style="text-align:center;">Support over Email & Phone</div>
+                        <div class="list-group-item" style="text-align:center;">$449.99</div>
+                        <button type="button" class="list-group-item" style="text-align:center; background-color:#47A9EB; color:#fff;">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center footer-container">
+        © 2016 Tricon Infotech Private Limited. All Rights Reserved.
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    /*++++++++++++++++++++++ LOGOUT FUNCTION +++++++++++++++++++++++++++*/
+    function logOut() {
+        window.sessionStorage.clear();
+        $.ajax({
+            url: '/user/logout',
+            type: 'GET',
+            success: function(response) {
+                window.location.href = '/';
+            }
+
+        });
+    }
+    /*var i;
+     var protocol = location.protocol;
+     var hostname = location.hostname;
+     var port = location.port;
+     var a = document.getElementsByClassName("protocol");
+     for (i = 0; i < a.length; ++i) {
+     var item = a[i];
+     item.innerHTML = protocol;
+     }
+     var b = document.getElementsByClassName("host");
+     for (i = 0; i < b.length; ++i) {
+     var item = b[i];
+     item.innerHTML = hostname;
+     }
+     var c = document.getElementsByClassName("port");
+     for (i = 0; i < c.length; ++i) {
+     var item = c[i];
+     item.innerHTML = port;
+     }*/
+
+
+</script>
+</body>
+</html>
